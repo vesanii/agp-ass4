@@ -3,15 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
 #include "BaseCharacter.h"
-#include "InputActionValue.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "PlayerCharacter.generated.h"
 
-class UPlayerCharacterHUD;
-class UInputMappingContext;
-class UInputAction;
-struct FInputActionValue;
 UCLASS()
 class AGP_API APlayerCharacter : public ABaseCharacter
 {
@@ -21,40 +18,23 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
-	void UpdateHealthBar(float HealthPercent);
-	void UpdateAmmoUI(int32 RoundsRemaining, int32 MagazineSize);
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void ChooseCharacterMesh();
-	void DrawUI();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction* MoveAction;
+	UPROPERTY(EditDefaultsOnly)
+	UInputMappingContext* InputMappingContext;
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction* LookAction;
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction* JumpAction;
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction* FireAction;
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditdefaultsOnly)
 	UInputAction* ReloadAction;
 	UPROPERTY(EditDefaultsOnly)
-	UInputMappingContext* InputMappingContext;
-
-	UPROPERTY(EditDefaultsOnly)
-	float LookSensitivity = 0.5f;
-
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UPlayerCharacterHUD> PlayerHUDClass;
-	UPROPERTY()
-	UPlayerCharacterHUD* PlayerHUD;
-	
-	
+	float Sensitivity = 1.0;
 
 public:	
 	// Called every frame
@@ -62,11 +42,10 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
 private:
-	
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void FireWeapon(const FInputActionValue& Value);
-
+	void ReloadWeapon(const FInputActionValue& Value);
 };
+

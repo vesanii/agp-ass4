@@ -8,13 +8,31 @@ ANavigationNode::ANavigationNode()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	bNetLoadOnClient = false;
-
-	LocationComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Location Component"));
+	LocationComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Node"));
 	SetRootComponent(LocationComponent);
-	
+}
+
+bool ANavigationNode::ShouldTickIfViewportsOnly() const
+{
+	return true;
+}
+
+TArray<ANavigationNode*> ANavigationNode::GetConnectedNodes()
+{
+	return ConnectedNodes;
+}
+
+void ANavigationNode::PushConnectedNode(ANavigationNode* Node)
+{
+	if (Node)
+	{
+		ConnectedNodes.Push(Node);
+	}
+	if (!Node)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("empty node"));
+	}
 }
 
 // Called when the game starts or when spawned
@@ -28,32 +46,14 @@ void ANavigationNode::BeginPlay()
 void ANavigationNode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	DrawDebugSphere(GetWorld(), GetActorLocation(), 50.0f, 4, FColor::Blue, false);
 
-	/*FColor SphereColor = FColor::Blue;
-	if (ConnectedNodes.Contains(this))
+	for (auto* node: ConnectedNodes)
 	{
-		SphereColor = FColor::Red;
-	}
-	
-	DrawDebugSphere(GetWorld(), GetActorLocation(), 50.0f, 4, SphereColor, false, -1, 0, 5.0f);
-	
-	for (const ANavigationNode* ConnectedNode : ConnectedNodes)
-	{
-		if (ConnectedNode)
+		if (node != nullptr)
 		{
-			FColor LineColor = FColor::Red;
-			if (ConnectedNode->ConnectedNodes.Contains(this))
-			{
-				LineColor = FColor::Green;
-			}
-			DrawDebugLine(GetWorld(), GetActorLocation(), ConnectedNode->GetActorLocation(),
-				LineColor, false, -1, 0, 5.0f);
+			DrawDebugLine(GetWorld(), GetActorLocation(), node->GetActorLocation(), FColor::Blue); 
 		}
-	}*/
-}
-
-bool ANavigationNode::ShouldTickIfViewportsOnly() const
-{
-	return true;
+	}
 }
 

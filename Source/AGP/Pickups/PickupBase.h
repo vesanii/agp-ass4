@@ -3,10 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <Components/BoxComponent.h>
 #include "GameFramework/Actor.h"
 #include "PickupBase.generated.h"
-
-class UBoxComponent;
 
 UCLASS()
 class AGP_API APickupBase : public AActor
@@ -20,17 +19,14 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere)
+	UBoxComponent* PickupCollider;
+	UPROPERTY(BlueprintReadWrite)
+	UStaticMeshComponent* PickupMesh;
 
 	UFUNCTION()
 	virtual void OnPickupOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& HitInfo);
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* PickupMesh;
-	UPROPERTY(VisibleAnywhere)
-	UBoxComponent* PickupCollider;
-	UPROPERTY(VisibleAnywhere)
-	USceneComponent* PickupRoot;
+		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 public:	
 	// Called every frame

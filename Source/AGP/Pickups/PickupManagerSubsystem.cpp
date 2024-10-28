@@ -2,64 +2,67 @@
 
 
 #include "PickupManagerSubsystem.h"
+#include <AGP/Pathfinding/PathfindingSubsystem.h>
+#include <AGP/AGPGameInstance.h>
 
-#include "WeaponPickup.h"
-#include "AGP/AGPGameInstance.h"
-#include "AGP/Pathfinding/PathfindingSubsystem.h"
+TStatId UPickupManagerSubsystem::GetStatId() const
+{
+	return TStatId();
+}
 
 void UPickupManagerSubsystem::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-
-	// We don't want this pickup manager to do any spawning if it isn't
-	// on the server.
-	// A value < NM_Client is any type of server. So if it is >=
-	// to NM_Client or == NM_Client then we know it is the client
-	// and we don't want to spawn.
 	if (GetWorld()->GetNetMode() >= NM_Client)
 	{
 		return;
 	}
-
 	if (PossibleSpawnLocations.IsEmpty())
 	{
 		PopulateSpawnLocations();
 	}
-
 	TimeSinceLastSpawn += DeltaTime;
 	if (TimeSinceLastSpawn >= PickupSpawnRate)
 	{
-		SpawnWeaponPickup();
 		TimeSinceLastSpawn = 0.0f;
-	}
-}
-
-void UPickupManagerSubsystem::SpawnWeaponPickup()
-{
-	if (PossibleSpawnLocations.IsEmpty())
-	{
-		UE_LOG(LogTemp, Error, TEXT("Unable to spawn weapon pickup."))
-		return;
-	}
-	
-	if (const UAGPGameInstance* GameInstance =
-		GetWorld()->GetGameInstance<UAGPGameInstance>())
-	{
-		FVector SpawnPosition =
-			PossibleSpawnLocations[FMath::RandRange(0, PossibleSpawnLocations.Num()-1)];
-		SpawnPosition.Z += 50.0f;
-		GetWorld()->SpawnActor<AWeaponPickup>(
-			GameInstance->GetWeaponPickupClass(), SpawnPosition, FRotator::ZeroRotator);
-
-		//UE_LOG(LogTemp, Display, TEXT("Weapon Pickup Spawned"))
+		SpawnWeaponPickup();
+		SpawnHealthPickup();
 	}
 }
 
 void UPickupManagerSubsystem::PopulateSpawnLocations()
 {
 	PossibleSpawnLocations.Empty();
-	if (const UPathfindingSubsystem* PathfindingSubsystem = GetWorld()->GetSubsystem<UPathfindingSubsystem>())
+	PossibleSpawnLocations = GetWorld()->GetSubsystem<UPathfindingSubsystem>()->GetWaypointPositions();
+}
+
+void UPickupManagerSubsystem::SpawnWeaponPickup()
+{
+	if (PossibleSpawnLocations.IsEmpty())
 	{
-		PossibleSpawnLocations = PathfindingSubsystem->GetWaypointPositions();
+		UE_LOG(LogTemp, Error, TEXT("Unable to spawn weapon pickup")); //debugging for if there are no navigation nodes in the world
+		return;
+	}
+	if (const UAGPGameInstance* GameInstance = GetWorld()->GetGameInstance<UAGPGameInstance>()) // if the world is loaded with the custom game instance
+	{
+		FVector SpawnPosition = PossibleSpawnLocations[FMath::RandRange(0, PossibleSpawnLocations.Num() - 1)]; // find a random position on the map
+		SpawnPosition.Z += 50.0f; // raise its position so it's not stuck in the floor
+		AWeaponPickup* Pickup = GetWorld()->SpawnActor<AWeaponPickup>(GameInstance->GetWeaponPickupClass(), SpawnPosition, FRotator::ZeroRotator); // spawn a bp_weaponpickup at the desired location
+		//UE_LOG(LogTemp, Warning, TEXT("Weapon Pickup Spawned"));
+	}
+}
+
+void UPickupManagerSubsystem::SpawnHealthPickup()
+{
+	if (PossibleSpawnLocations.IsEmpty())
+	{
+		UE_LOG(LogTemp, Error, TEXT("Unable to spawn health pickup")); //debugging for if there are no navigation nodes in the world
+		return;
+	}
+	if (const UAGPGameInstance* GameInstance = GetWorld()->GetGameInstance<UAGPGameInstance>()) // if the world is loaded with the custom game instance
+	{
+		FVector SpawnPosition = PossibleSpawnLocations[FMath::RandRange(0, PossibleSpawnLocations.Num() - 1)]; // find a random position on the map
+		SpawnPosition.Z += 50.0f; // raise its position so it's not stuck in the floor
+		AHealthPickup* Pickup = GetWorld()->SpawnActor<AHealthPickup>(GameInstance->GetHealthPickupClass(), SpawnPosition, FRotator::ZeroRotator); // spawn a bp_healthpickup at the desired location
+		//UE_LOG(LogTemp, Warning, TEXT("Health Pickup Spawned"));
 	}
 }

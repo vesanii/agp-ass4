@@ -1,10 +1,15 @@
- // Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
 #include "AGPGameInstance.h"
-#include "Pickups/WeaponPickup.h"
 
 UClass* UAGPGameInstance::GetWeaponPickupClass() const
 {
- return WeaponPickupClass.Get();
+	return WeaponPickupClass.Get();
 }
 
+UClass* UAGPGameInstance::GetHealthPickupClass() const
+{
+	return HealthPickupClass.Get();
+}
 

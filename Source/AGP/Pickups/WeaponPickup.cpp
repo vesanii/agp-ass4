@@ -2,32 +2,36 @@
 
 
 #include "WeaponPickup.h"
+#include <AGP/Characters/BaseCharacter.h>
+#include <Net/UnrealNetwork.h>
 
-#include "../Characters/PlayerCharacter.h"
-#include "Net/UnrealNetwork.h"
+void AWeaponPickup::OnPickupOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Overlap event occured in WeaponPickup"));
+	ABaseCharacter* Player = Cast<ABaseCharacter>(OtherActor);
+	if (Player != nullptr)
+	{
+		//if (!Player->HasWeapon())
+		//{
+			Player->EquipWeapon(true, WeaponStats);
+			Destroy();
+		//}
+	}
+}
+
+AWeaponPickup::AWeaponPickup()
+{
+	bReplicates = true;
+}
 
 void AWeaponPickup::BeginPlay()
 {
 	Super::BeginPlay();
-
 	if (GetLocalRole() == ROLE_Authority)
 	{
 		GenerateWeaponPickup();
 	}
 	UpdateWeaponPickupMaterial();
-}
-
-void AWeaponPickup::OnPickupOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-                                    UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& HitInfo)
-{
-	//Super::OnPickupOverlap(OverlappedComponent, OtherActor, OtherComponent, OtherBodyIndex, bFromSweep, HitInfo);
-	// UE_LOG(LogTemp, Display, TEXT("Overlap event occurred on WeaponPickup"))
-
-	if (ABaseCharacter* Player = Cast<ABaseCharacter>(OtherActor))
-	{
-		Player->EquipWeapon(true, WeaponStats);
-		Destroy();
-	}
 }
 
 void AWeaponPickup::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -39,24 +43,24 @@ void AWeaponPickup::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 
 void AWeaponPickup::GenerateWeaponPickup()
 {
-	WeaponRarity = WeaponRarityPicker();
-	TArray<bool> GoodStats;
+	GenerateRarity();
+	TArray<bool> GoodStats{};
+
 	switch (WeaponRarity)
 	{
-	case EWeaponRarity::Legendary:
-		GoodStats = WeaponStatPicker(4, 5);
-		break;
-	case EWeaponRarity::Master:
-		GoodStats = WeaponStatPicker(3, 5);
-		break;
-	case EWeaponRarity::Rare:
-		GoodStats = WeaponStatPicker(2, 5);
-		break;
-	default:
-		GoodStats = WeaponStatPicker(0, 5);
-		break;
+		case EWeaponRarity::Legendary:
+			GoodStats = StatGenerator(4, 5);
+			break;
+		case EWeaponRarity::Master:
+			GoodStats = StatGenerator(3, 5);
+			break;
+		case EWeaponRarity::Rare:
+			GoodStats = StatGenerator(2, 5);
+			break;
+		case EWeaponRarity::Common:
+			GoodStats = StatGenerator(0, 5);
+			break;
 	}
-
 	WeaponStats.Accuracy = GoodStats[0] ? FMath::RandRange(0.98f, 1.0f) : FMath::RandRange(0.9f, 0.98f);
 	WeaponStats.FireRate = GoodStats[1] ? FMath::RandRange(0.05f, 0.2f) : FMath::RandRange(0.2f, 1.0f);
 	WeaponStats.BaseDamage = GoodStats[2] ? FMath::RandRange(15.0f, 30.0f) : FMath::RandRange(5.0f, 15.0f);
@@ -64,50 +68,39 @@ void AWeaponPickup::GenerateWeaponPickup()
 	WeaponStats.ReloadTime = GoodStats[4] ? FMath::RandRange(0.1f, 1.0f) : FMath::RandRange(1.0f, 4.0f);
 }
 
-EWeaponRarity AWeaponPickup::WeaponRarityPicker()
+void AWeaponPickup::GenerateRarity()
 {
-	// Rules:
-	// 50% chance of Common
-	// 30% chance of Rare
-	// 15% chance of Master
-	// 5% chance of Legendary
-	const float RandPercent = FMath::RandRange(0.0f, 1.0f);
-	
-	if (RandPercent <= 0.5f)
+	float Rarity = FMath::RandRange(0.0f, 1.0f);
+	if (Rarity <= 0.05f)
 	{
-		return EWeaponRarity::Common;
+		WeaponRarity = EWeaponRarity::Legendary;
 	}
-	if (RandPercent <= 0.8f)
+	else if (Rarity <= 0.15f && Rarity > 0.05f)
 	{
-		return EWeaponRarity::Rare;
+		WeaponRarity = EWeaponRarity::Master;
 	}
-	if (RandPercent <= 0.95f)
+	else if (Rarity <= 0.3f && Rarity > 0.15f)
 	{
-		return EWeaponRarity::Master;
+		WeaponRarity = EWeaponRarity::Rare;
 	}
-	
-	return EWeaponRarity::Legendary;
+	else if (Rarity >= 0.5f && Rarity > 0.3f)
+	{
+		WeaponRarity = EWeaponRarity::Common;
+	}
 }
 
-TArray<bool> AWeaponPickup::WeaponStatPicker(int32 NumOfGood, int32 NumOfStats)
+TArray<bool> AWeaponPickup::StatGenerator(int32 NumOfGoodStats, int32 TotalNumOfStats)
 {
-	// Fill the array with the correct number of good and bad stats.
-	TArray<bool> GoodStats;
-	for (int32 i = 0; i < NumOfStats; i++)
+	TArray<bool> GoodStats{};
+	for (int32 i = 0; i < TotalNumOfStats; ++i)
 	{
-		// Ternary condition: Will add true if I < NumOfGood otherwise add false.
-		GoodStats.Add(i < NumOfGood ? true : false);
+		GoodStats.Add(i < NumOfGoodStats ? true : false); 
 	}
 
-	// Array shuffling algorithm.
-	for (int32 i = 0; i < GoodStats.Num(); i++)
+	for (int32 i = 0; i < TotalNumOfStats; ++i)
 	{
-		// Get a random index from the GoodStats array.
-		const int32 RandIndex = FMath::RandRange(0, GoodStats.Num() - 1);
-		// Then swap the item at that random index with the item in the i index.
-		const bool Temp = GoodStats[i];
-		GoodStats[i] = GoodStats[RandIndex];
-		GoodStats[RandIndex] = Temp;
+		int32 IndexToShuffle = FMath::RandRange(0, GoodStats.Num() - 1);
+		GoodStats.Swap(i, IndexToShuffle);
 	}
 
 	return GoodStats;

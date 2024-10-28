@@ -10,14 +10,16 @@ UCLASS()
 class AGP_API ANavigationNode : public AActor
 {
 	GENERATED_BODY()
-
-	friend class UPathfindingSubsystem;
 	
 public:	
 	// Sets default values for this actor's properties
 	ANavigationNode();
-
 	virtual bool ShouldTickIfViewportsOnly() const override;
+	TArray<ANavigationNode*> GetConnectedNodes();
+	void PushConnectedNode(ANavigationNode* Node);
+
+	TMap<FString, double> NodeScores{ {"GScore", 0.0}, {"HScore", 0.0}, {"FScore", 0.0} };
+	ANavigationNode* CameFrom{};
 
 protected:
 	// Called when the game starts or when spawned
