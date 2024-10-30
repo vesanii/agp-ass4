@@ -3,6 +3,7 @@
 
 #include "EnemyCharacter.h"
 #include "EngineUtils.h"
+#include <Net/UnrealNetwork.h>
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -30,6 +31,7 @@ void AEnemyCharacter::BeginPlay()
 	if (PawnSensingComponent)
 	{
 		PawnSensingComponent->OnSeePawn.AddDynamic(this, &AEnemyCharacter::OnSensedPawn);
+		UE_LOG(LogTemp, Warning, TEXT("PawnSensingComponent exists"));
 	}
 	else
 	{
@@ -154,16 +156,12 @@ void AEnemyCharacter::Tick(float DeltaTime)
 
 	// DO NOTHING UNLESS IT IS ON THE SERVER
 	if (GetLocalRole() != ROLE_Authority) return;
-	
-	if (!HasDied())
+
+	UpdateSight();
+	if (ActiveState && this)
 	{
-		UpdateSight();
-		if (ActiveState && this)
-		{
-			ActiveState->Update(this, DeltaTime);
-		}
+		ActiveState->Update(this, DeltaTime);
 	}
-	
 }
 
 // Called to bind functionality to input
@@ -171,21 +169,6 @@ void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-}
-
-APlayerCharacter* AEnemyCharacter::FindPlayer() const
-{
-	APlayerCharacter* Player = nullptr;
-	for (TActorIterator<APlayerCharacter> It(GetWorld()); It; ++It)
-	{
-		Player = *It;
-		break;
-	}
-	if (!Player)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Unable to find the Player Character in the world."))
-	}
-	return Player;
 }
 
 void AEnemyCharacter::FindWeaponPickup()

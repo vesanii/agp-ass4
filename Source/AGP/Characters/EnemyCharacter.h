@@ -8,6 +8,7 @@
 #include "PlayerCharacter.h"
 #include "Perception/PawnSensingComponent.h"
 #include "AGP/Pathfinding/PathfindingSubsystem.h"
+#include "HealthComponent.h"
 #include "../Pickups/WeaponPickup.h"
 #include "../Pickups/HealthPickup.h"
 #include "EnemyStates/PatrolState.h"
@@ -107,12 +108,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	
-	/**
-	 * NOT USED ANYMORE - Was used for TickEvade and TickEngage before we setup the UPawnSensingComponent.
-	 * @return A pointer to one APlayerCharacter actor in the world.
-	 */
-	APlayerCharacter* FindPlayer() const;
 
 	//temporary functions for pickup sensing, to be replaced with ai perception in future
 	void FindWeaponPickup();

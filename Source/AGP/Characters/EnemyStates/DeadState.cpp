@@ -6,7 +6,7 @@
 
 void UDeadState::Entry(AEnemyCharacter* Owner)
 {
-	UE_LOG(LogTemp, Warning, TEXT("State: Dead"));
+	UE_LOG(LogTemp, Display, TEXT("State: Dead"));
 	if (!Owner->CurrentPath.IsEmpty())
 	{
 		Owner->EmptyCurrentPath();
