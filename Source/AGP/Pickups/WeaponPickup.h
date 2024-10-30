@@ -41,7 +41,6 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
 private:
-
 	void GenerateWeaponPickup();
 	void DestroyPickup();
 	EWeaponRarity WeaponRarityPicker();

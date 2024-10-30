@@ -17,11 +17,13 @@ public:
 	UHealthComponent();
 
 	bool IsDead();
+	bool IsStunned();
 	float GetCurrentHealth() const;
 	float GetCurrentHealthPercentage() const;
 	void ApplyDamage(float DamageAmount);
 	void ApplyHealing(float HealingAmount);
 	void ResetHealth();
+	void ResetStun();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
@@ -34,6 +36,7 @@ protected:
 	UPROPERTY(ReplicatedUsing=UpdateHealthBar)
 	float CurrentHealth;
 	bool bIsDead = false;
+	bool bIsStunned = false;
 
 	void OnDeath();
 	UFUNCTION()

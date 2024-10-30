@@ -31,13 +31,13 @@ private:
 	/**
 	 * The speed that the object will move.
 	 */
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(EditAnyWhere)
 	float BounceSpeed;
 
 	/**
 	 * The bounce extent defines how far from its initial position it will move up and down.
 	 */
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(EditAnywhere)
 	float BounceExtent;
 
 	bool bIsMovingUp;

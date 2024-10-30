@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "WeaponComponent.h"
 #include "GameFramework/Character.h"
+#include "../StateMachine/BaseState.h"
 #include "BaseCharacter.generated.h"
 
 class UHealthComponent;
@@ -25,12 +26,19 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void EquipWeaponGraphical(bool bEquipWeapon);
 
+	bool HasDied();
+	void HealCharacter(float HealingAmount);
+
 	/**
 	 * Will reload the weapon if the character has a weapon equipped.
 	 */
 	void Reload();
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	virtual void ChangeState(UBaseState* NewState);
+	bool IsStunned();
+	void ResetStun();
 
 	void OnDeath();
 

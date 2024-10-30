@@ -4,6 +4,7 @@
 #include "PickupManagerSubsystem.h"
 
 #include "WeaponPickup.h"
+#include "HealthPickup.h"
 #include "AGP/AGPGameInstance.h"
 #include "AGP/Pathfinding/PathfindingSubsystem.h"
 
@@ -21,7 +22,7 @@ void UPickupManagerSubsystem::Tick(float DeltaTime)
 		return;
 	}
 
-	if (PossibleSpawnLocations.IsEmpty())
+	if (PossibleWeaponSpawnLocations.IsEmpty() || PossibleHealthSpawnLocations.IsEmpty())
 	{
 		PopulateSpawnLocations();
 	}
@@ -30,6 +31,7 @@ void UPickupManagerSubsystem::Tick(float DeltaTime)
 	if (TimeSinceLastSpawn >= PickupSpawnRate)
 	{
 		SpawnWeaponPickup();
+		SpawnHealthPickup();
 		TimeSinceLastSpawn = 0.0f;
 	}
 }
@@ -40,10 +42,27 @@ void UPickupManagerSubsystem::DestroyWeaponPickup(TPair<AWeaponPickup*, FVector>
 	{
 		return;
 	}
-	int32 index = PossibleSpawnLocations.Find(PickupToDestroy);
-	if (index < PossibleSpawnLocations.Num())
+	int32 index = PossibleWeaponSpawnLocations.Find(PickupToDestroy);
+	if (index < PossibleWeaponSpawnLocations.Num() && index >= 0)
 	{
-		TPair<AWeaponPickup*, FVector>* Pair = &PossibleSpawnLocations[index];
+		TPair<AWeaponPickup*, FVector>* Pair = &PossibleWeaponSpawnLocations[index];
+		if (Pair->Key)
+		{
+			Pair->Key->Destroy();
+		}
+	}
+}
+
+void UPickupManagerSubsystem::DestroyHealthPickup(TPair<AHealthPickup*, FVector> PickupToDestroy)
+{
+	if (GetWorld()->GetNetMode() >= NM_Client)
+	{
+		return;
+	}
+	int32 index = PossibleHealthSpawnLocations.Find(PickupToDestroy);
+	if (index < PossibleHealthSpawnLocations.Num() && index >= 0)
+	{
+		TPair<AHealthPickup*, FVector>* Pair = &PossibleHealthSpawnLocations[index];
 		if (Pair->Key)
 		{
 			Pair->Key->Destroy();
@@ -53,14 +72,24 @@ void UPickupManagerSubsystem::DestroyWeaponPickup(TPair<AWeaponPickup*, FVector>
 
 void UPickupManagerSubsystem::SpawnWeaponPickup()
 {
-	if (PossibleSpawnLocations.IsEmpty())
+	if (PossibleWeaponSpawnLocations.IsEmpty())
 	{
 		UE_LOG(LogTemp, Error, TEXT("Unable to spawn weapon pickup")); //debugging for if there are no navigation nodes in the world
 		return;
 	}
 	if (const UAGPGameInstance* GameInstance = GetWorld()->GetGameInstance<UAGPGameInstance>()) // if the world is loaded with the custom game instance
 	{
-		TPair<AWeaponPickup*, FVector>* SpawnPosition = &PossibleSpawnLocations[FMath::RandRange(0, PossibleSpawnLocations.Num() - 1)]; // find a random position on the map
+		int32 RandIndex = FMath::RandRange(0, PossibleWeaponSpawnLocations.Num() - 1);
+		if (RandIndex < PossibleHealthSpawnLocations.Num())
+		{
+			TPair<AHealthPickup*, FVector>* PossibleSpawnPosition = &PossibleHealthSpawnLocations[RandIndex];
+			if (PossibleSpawnPosition->Key)
+			{
+				UE_LOG(LogTemp, Display, TEXT("Weapon pickup failed to spawn on top of health pickup"));
+				return;
+			}
+		}
+		TPair<AWeaponPickup*, FVector>* SpawnPosition = &PossibleWeaponSpawnLocations[RandIndex];
 		if (SpawnPosition->Key)
 		{
 			SpawnPosition->Key->Destroy();
@@ -76,13 +105,50 @@ void UPickupManagerSubsystem::SpawnWeaponPickup()
 	}
 }
 
+void UPickupManagerSubsystem::SpawnHealthPickup()
+{
+	if (PossibleHealthSpawnLocations.IsEmpty())
+	{
+		UE_LOG(LogTemp, Error, TEXT("Unable to spawn health pickup")); //debugging for if there are no navigation nodes in the world
+		return;
+	}
+	if (const UAGPGameInstance* GameInstance = GetWorld()->GetGameInstance<UAGPGameInstance>()) // if the world is loaded with the custom game instance
+	{
+		int32 RandIndex = FMath::RandRange(0, PossibleHealthSpawnLocations.Num() - 1);
+		if (RandIndex < PossibleWeaponSpawnLocations.Num())
+		{
+			TPair<AWeaponPickup*, FVector>* PossibleSpawnPosition = &PossibleWeaponSpawnLocations[RandIndex];
+			if (PossibleSpawnPosition->Key)
+			{
+				UE_LOG(LogTemp, Display, TEXT("Health pickup failed to spawn on top of weapon pickup"));
+				return;
+			}
+		}
+		TPair<AHealthPickup*, FVector>* SpawnPosition = &PossibleHealthSpawnLocations[RandIndex]; 
+		if (SpawnPosition->Key)
+		{
+			SpawnPosition->Key->Destroy();
+			SpawnPosition->Key = GetWorld()->SpawnActor<AHealthPickup>(GameInstance->GetHealthPickupClass(), SpawnPosition->Value, FRotator::ZeroRotator);
+			//UE_LOG(LogTemp, Warning, TEXT("Health Pickup Replaced"));
+		}
+		else
+		{
+			SpawnPosition->Value.Z += 50.0f; // raise its position so it's not stuck in the floor
+			SpawnPosition->Key = GetWorld()->SpawnActor<AHealthPickup>(GameInstance->GetHealthPickupClass(), SpawnPosition->Value, FRotator::ZeroRotator); // spawn a bp_healthpickup at the desired location
+			//UE_LOG(LogTemp, Warning, TEXT("Health Pickup Spawned"));
+		}
+	}
+}
+
 void UPickupManagerSubsystem::PopulateSpawnLocations()
 {
-	PossibleSpawnLocations.Empty();
+	PossibleWeaponSpawnLocations.Empty();
+	PossibleHealthSpawnLocations.Empty();
 	TArray<FVector> Waypoints = GetWorld()->GetSubsystem<UPathfindingSubsystem>()->GetWaypointPositions();
 	for (FVector Waypoint : Waypoints)
 	{
-		PossibleSpawnLocations.Push(TPair<AWeaponPickup*, FVector>(nullptr, Waypoint));
+		PossibleWeaponSpawnLocations.Push(TPair<AWeaponPickup*, FVector>(nullptr, Waypoint));
+		PossibleHealthSpawnLocations.Push(TPair<AHealthPickup*, FVector>(nullptr, Waypoint));
 		//empty pointer means a weapon hasn't been spawned here yet
 	}
 }

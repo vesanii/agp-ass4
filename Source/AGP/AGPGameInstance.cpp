@@ -8,6 +8,11 @@ UClass* UAGPGameInstance::GetWeaponPickupClass() const
 	return WeaponPickupClass.Get();
 }
 
+UClass* UAGPGameInstance::GetHealthPickupClass() const
+{
+	return HealthPickupClass.Get();
+}
+
 void UAGPGameInstance::SpawnGroundHitParticles(const FVector& SpawnLocation)
 {
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), GroundHitParticles, SpawnLocation);

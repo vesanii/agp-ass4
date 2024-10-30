@@ -7,6 +7,7 @@
 #include "PickupManagerSubsystem.generated.h"
 
 class AWeaponPickup;
+class AHealthPickup;
 /**
  * 
  */
@@ -21,13 +22,15 @@ public:
 		return TStatId();
 	}
 	void DestroyWeaponPickup(TPair<AWeaponPickup*, FVector> PickupToDestroy);
+	void DestroyHealthPickup(TPair<AHealthPickup*, FVector> PickupToDestroy);
 
 protected:
 	
 	/**
 	 * The world locations of all possible locations that a pickup can spawn.
 	 */
-	TArray<TPair<AWeaponPickup*, FVector>> PossibleSpawnLocations;
+	TArray<TPair<AWeaponPickup*, FVector>> PossibleWeaponSpawnLocations;
+	TArray<TPair<AHealthPickup*, FVector>> PossibleHealthSpawnLocations;
 	float PickupSpawnRate = 5.0f;
 	float TimeSinceLastSpawn = 0.0f;
 	
@@ -36,6 +39,7 @@ protected:
 private:
 
 	void SpawnWeaponPickup();
+	void SpawnHealthPickup();
 	void PopulateSpawnLocations();
 	
 };

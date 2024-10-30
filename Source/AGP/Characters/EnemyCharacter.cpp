@@ -3,10 +3,6 @@
 
 #include "EnemyCharacter.h"
 #include "EngineUtils.h"
-#include "HealthComponent.h"
-#include "PlayerCharacter.h"
-#include "AGP/Pathfinding/PathfindingSubsystem.h"
-#include "Perception/PawnSensingComponent.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -15,6 +11,7 @@ AEnemyCharacter::AEnemyCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>("Pawn Sensing Component");
+	InstantiateStates();
 }
 
 // Called when the game starts or when spawned
@@ -26,10 +23,7 @@ void AEnemyCharacter::BeginPlay()
 	if (GetLocalRole() != ROLE_Authority) return;
 	
 	PathfindingSubsystem = GetWorld()->GetSubsystem<UPathfindingSubsystem>();
-	if (PathfindingSubsystem)
-	{
-		CurrentPath = PathfindingSubsystem->GetRandomPath(GetActorLocation());
-	} else
+	if (!PathfindingSubsystem)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Unable to find the PathfindingSubsystem"))
 	}
@@ -37,8 +31,11 @@ void AEnemyCharacter::BeginPlay()
 	{
 		PawnSensingComponent->OnSeePawn.AddDynamic(this, &AEnemyCharacter::OnSensedPawn);
 	}
-	
-	
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Unable to find PawnSensingComponent"));
+	}
+	ChangeState(PatrolState);
 }
 
 void AEnemyCharacter::MoveAlongPath()
@@ -61,66 +58,91 @@ void AEnemyCharacter::MoveAlongPath()
 	}
 }
 
-void AEnemyCharacter::TickPatrol()
-{
-	if (CurrentPath.IsEmpty())
-	{
-		CurrentPath = PathfindingSubsystem->GetRandomPath(GetActorLocation());
-	}
-	MoveAlongPath();
-}
-
-void AEnemyCharacter::TickEngage()
-{
-	
-	if (!SensedCharacter) return;
-	
-	if (CurrentPath.IsEmpty())
-	{
-		CurrentPath = PathfindingSubsystem->GetPath(GetActorLocation(), SensedCharacter->GetActorLocation());
-	}
-	MoveAlongPath();
-	if (HasWeapon())
-	{
-		if (WeaponComponent->IsMagazineEmpty())
-		{
-			Reload();
-		}
-		Fire(SensedCharacter->GetActorLocation());
-	}
-}
-
-void AEnemyCharacter::TickEvade()
-{
-	// Find the player and return if it can't find it.
-	if (!SensedCharacter) return;
-
-	if (CurrentPath.IsEmpty())
-	{
-		CurrentPath = PathfindingSubsystem->GetPathAway(GetActorLocation(), SensedCharacter->GetActorLocation());
-	}
-	MoveAlongPath();
-}
-
 void AEnemyCharacter::OnSensedPawn(APawn* SensedActor)
 {
 	if (APlayerCharacter* Player = Cast<APlayerCharacter>(SensedActor))
 	{
 		SensedCharacter = Player;
-		//UE_LOG(LogTemp, Display, TEXT("Sensed Player"))
+		UE_LOG(LogTemp, Display, TEXT("Sensed Player"))
 	}
 }
 
 void AEnemyCharacter::UpdateSight()
 {
-	if (!SensedCharacter) return;
+	if (!SensedCharacter.IsValid()) 
+	{
+		return;
+	}
+	LastKnownCharacterLocation = SensedCharacter->GetActorLocation();
 	if (PawnSensingComponent)
 	{
-		if (!PawnSensingComponent->HasLineOfSightTo(SensedCharacter))
+		if (!PawnSensingComponent->HasLineOfSightTo(SensedCharacter.Get()))
 		{
-			SensedCharacter = nullptr;
-			//UE_LOG(LogTemp, Display, TEXT("Lost Player"))
+			SensedCharacter.Reset();
+			UE_LOG(LogTemp, Display, TEXT("Lost Player"))
 		}
+	}
+}
+
+float AEnemyCharacter::GetHealth()
+{
+	return HealthComponent->GetCurrentHealthPercentage();
+}
+
+void AEnemyCharacter::CreateRandomPath()
+{
+	if (PathfindingSubsystem)
+	{
+		CurrentPath = PathfindingSubsystem->GetRandomPath(GetActorLocation());
+	}
+}
+
+void AEnemyCharacter::CreatePathTo(AActor* Target)
+{
+	if (PathfindingSubsystem)
+	{
+		CurrentPath = PathfindingSubsystem->GetPath(GetActorLocation(), Target->GetActorLocation());
+	}
+}
+
+void AEnemyCharacter::CreatePathTo(FVector Location)
+{
+	if (PathfindingSubsystem)
+	{
+		CurrentPath = PathfindingSubsystem->GetPath(GetActorLocation(), Location);
+	}
+}
+
+void AEnemyCharacter::CreatePathAwayFrom(APawn* Target)
+{
+	if (PathfindingSubsystem)
+	{
+		CurrentPath = PathfindingSubsystem->GetPathAway(GetActorLocation(), Target->GetActorLocation());
+	}
+}
+
+void AEnemyCharacter::EmptyCurrentPath()
+{
+	CurrentPath.Empty();
+}
+
+void AEnemyCharacter::Investigate(const float& DeltaTime)
+{
+	FRotator CurrentActorRotation = GetActorRotation();
+	CurrentActorRotation.Yaw += DeltaTime * 120.0f;
+	SetActorRotation(CurrentActorRotation);
+}
+
+void AEnemyCharacter::ChangeState(UBaseState* NewState)
+{
+	if (ActiveState)
+	{
+		ActiveState->Exit(this);
+	}
+	ActiveState = NewState;
+	if (ActiveState)
+	{
+		ActiveState->Entry(this);
 	}
 }
 
@@ -133,47 +155,15 @@ void AEnemyCharacter::Tick(float DeltaTime)
 	// DO NOTHING UNLESS IT IS ON THE SERVER
 	if (GetLocalRole() != ROLE_Authority) return;
 	
-	UpdateSight();
-	
-	switch(CurrentState)
+	if (!HasDied())
 	{
-	case EEnemyState::Patrol:
-		TickPatrol();
-		if (SensedCharacter)
+		UpdateSight();
+		if (ActiveState && this)
 		{
-			if (HealthComponent->GetCurrentHealthPercentage() >= 0.4f)
-			{
-				CurrentState = EEnemyState::Engage;
-			} else
-			{
-				CurrentState = EEnemyState::Evade;
-			}
-			CurrentPath.Empty();
+			ActiveState->Update(this, DeltaTime);
 		}
-		break;
-	case EEnemyState::Engage:
-		TickEngage();
-		if (HealthComponent->GetCurrentHealthPercentage() < 0.4f)
-		{
-			CurrentPath.Empty();
-			CurrentState = EEnemyState::Evade;
-		} else if (!SensedCharacter)
-		{
-			CurrentState = EEnemyState::Patrol;
-		}
-		break;
-	case EEnemyState::Evade:
-		TickEvade();
-		if (HealthComponent->GetCurrentHealthPercentage() >= 0.4f)
-		{
-			CurrentPath.Empty();
-			CurrentState = EEnemyState::Engage;
-		} else if (!SensedCharacter)
-		{
-			CurrentState = EEnemyState::Patrol;
-		}
-		break;
 	}
+	
 }
 
 // Called to bind functionality to input
@@ -196,5 +186,33 @@ APlayerCharacter* AEnemyCharacter::FindPlayer() const
 		UE_LOG(LogTemp, Error, TEXT("Unable to find the Player Character in the world."))
 	}
 	return Player;
+}
+
+void AEnemyCharacter::FindWeaponPickup()
+{
+	for (TActorIterator<AWeaponPickup> It(GetWorld()); It; ++It)
+	{
+		SensedWeapon = *It;
+	}
+}
+
+void AEnemyCharacter::FindHealthPickup()
+{
+	for (TActorIterator<AHealthPickup> It(GetWorld()); It; ++It)
+	{
+		SensedHealUp = *It;
+	}
+}
+
+void AEnemyCharacter::InstantiateStates()
+{
+	PatrolState = CreateDefaultSubobject<UPatrolState>("PatrolState");
+	EngageState = CreateDefaultSubobject<UEngageState>("EngageState");
+	EvadeState = CreateDefaultSubobject<UEvadeState>("EvadeState");
+	UnarmedState = CreateDefaultSubobject<UUnarmedState>("UnarmedState");
+	DeadState = CreateDefaultSubobject<UDeadState>("DeadState");
+	InvestigateState = CreateDefaultSubobject<UInvestigateState>("InvestigateState");
+	InjuredState = CreateDefaultSubobject<UInjuredState>("InjuredState");
+	StunnedState = CreateDefaultSubobject<UStunnedState>("StunnedState");
 }
 

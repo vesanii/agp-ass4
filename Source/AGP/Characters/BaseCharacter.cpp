@@ -47,6 +47,20 @@ void ABaseCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	DOREPLIFETIME(ABaseCharacter, WeaponComponent);
 }
 
+void ABaseCharacter::ChangeState(UBaseState* NewState)
+{
+}
+
+bool ABaseCharacter::IsStunned()
+{
+	return HealthComponent->IsStunned();
+}
+
+void ABaseCharacter::ResetStun()
+{
+	HealthComponent->ResetStun();
+}
+
 void ABaseCharacter::OnDeath()
 {
 	// WE ONLY WANT TO HANDLE LOGIC IF IT IS ON THE SERVER
@@ -81,6 +95,16 @@ void ABaseCharacter::EquipWeapon(bool bEquipWeapon, const FWeaponStats& WeaponSt
 		EquipWeaponImplementation(bEquipWeapon, WeaponStats);
 		MulticastEquipWeapon(bEquipWeapon, WeaponStats);
 	}
+}
+
+bool ABaseCharacter::HasDied()
+{
+	return HealthComponent->IsDead();
+}
+
+void ABaseCharacter::HealCharacter(float HealingAmount)
+{
+	HealthComponent->ApplyHealing(HealingAmount);
 }
 
 // Called to bind functionality to input

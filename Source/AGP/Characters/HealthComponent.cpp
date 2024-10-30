@@ -1,3 +1,5 @@
+#include "HealthComponent.h"
+#include "HealthComponent.h"
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
@@ -19,6 +21,11 @@ UHealthComponent::UHealthComponent()
 bool UHealthComponent::IsDead()
 {
 	return bIsDead;
+}
+
+bool UHealthComponent::IsStunned()
+{
+	return bIsStunned;
 }
 
 float UHealthComponent::GetCurrentHealth() const
@@ -101,6 +108,11 @@ void UHealthComponent::ResetHealth()
 	UE_LOG(LogTemp, Display, TEXT("MAX HEALTH: %f"), MaxHealth)
 	CurrentHealth = MaxHealth;
 	bIsDead = false;
+}
+
+void UHealthComponent::ResetStun()
+{
+	bIsStunned = false;
 }
 
 // Called every frame

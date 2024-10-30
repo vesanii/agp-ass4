@@ -6,24 +6,20 @@
 #include "GameFramework/Character.h"
 #include "BaseCharacter.h"
 #include "PlayerCharacter.h"
+#include "Perception/PawnSensingComponent.h"
+#include "AGP/Pathfinding/PathfindingSubsystem.h"
+#include "../Pickups/WeaponPickup.h"
+#include "../Pickups/HealthPickup.h"
+#include "EnemyStates/PatrolState.h"
+#include "EnemyStates/EngageState.h"
+#include "EnemyStates/EvadeState.h"
+#include "EnemyStates/UnarmedState.h"
+#include "EnemyStates/DeadState.h"
+#include "EnemyStates/InvestigateState.h"
+#include "EnemyStates/InjuredState.h"
+#include "EnemyStates/HideState.h"
+#include "EnemyStates/StunnedState.h"
 #include "EnemyCharacter.generated.h"
-
-// Forward declarations to avoid needing to #include files in the header of this class.
-// When these classes are used in the .cpp file, they are #included there.
-class UPawnSensingComponent;
-class APlayerCharacter;
-class UPathfindingSubsystem;
-
-/**
- * An enum to hold the current state of the enemy character.
- */
-UENUM(BlueprintType)
-enum class EEnemyState : uint8
-{
-	Patrol,
-	Engage,
-	Evade
-};
 
 /**
  * A class representing the logic for an AI controlled enemy character. 
@@ -41,23 +37,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	/**
-	 * Will move the character along the CurrentPath or do nothing to the character if the path is empty.
-	 */
 	void MoveAlongPath();
-
-	/**
-	 * Logic that controls the enemy character when in the Patrol state.
-	 */
-	void TickPatrol();
-	/**
-	 * Logic that controls the enemy character when in the Engage state.
-	 */
-	void TickEngage();
-	/**
-	 * Logic that controls the enemy character when in the Evade state.
-	 */
-	void TickEvade();
 
 	/**
 	 * A function bound to the UPawnSensingComponent's OnSeePawn event. This will set the SensedCharacter variable
@@ -72,6 +52,17 @@ protected:
 	 * the SensedCharacter variable.
 	 */
 	void UpdateSight();
+
+	//helper functions to use within states to perform actions
+	float GetHealth();
+	void CreateRandomPath();
+	void CreatePathTo(AActor* Target);
+	void CreatePathTo(FVector Location);
+	void CreatePathAwayFrom(APawn* Target);
+	void EmptyCurrentPath();
+	void Investigate(const float& DeltaTime);
+	//main funtion of the FSM, used in the update function of states when paramters for a state change are met
+	void ChangeState(UBaseState* NewState) override;
 
 	/**
 	 * A pointer to the Pathfinding Subsystem.
@@ -90,7 +81,13 @@ protected:
 	 * see any PlayerCharacter.
 	 */
 	UPROPERTY()
-	APlayerCharacter* SensedCharacter = nullptr;
+	TWeakObjectPtr<APlayerCharacter> SensedCharacter = nullptr;
+
+	UPROPERTY()
+	AWeaponPickup* SensedWeapon = nullptr;
+	UPROPERTY()
+	AHealthPickup* SensedHealUp = nullptr;
+	FVector LastKnownCharacterLocation;
 
 	/**
 	 * An array of vectors representing the current path that the agent is traversing along.
@@ -99,17 +96,10 @@ protected:
 	TArray<FVector> CurrentPath;
 
 	/**
-	 * The current state of the enemy character. This determines which logic to use when executing the finite state machine
-	 * found in the tick function of this enemy character.
-	 */
-	UPROPERTY(EditAnywhere)
-	EEnemyState CurrentState = EEnemyState::Patrol;
-
-	/**
 	 * Some arbitrary error value for determining how close is close enough before moving onto the next step in the path.
 	 */
 	UPROPERTY(EditAnywhere)
-	float PathfindingError = 150.0f; // 150 cm from target by default.
+	float PathfindingError = 100.0f; // 100 cm from target by default.
 
 public:	
 
@@ -124,4 +114,42 @@ private:
 	 */
 	APlayerCharacter* FindPlayer() const;
 
+	//temporary functions for pickup sensing, to be replaced with ai perception in future
+	void FindWeaponPickup();
+	void FindHealthPickup();
+
+	UPROPERTY()
+	UBaseState* ActiveState;
+
+	UPROPERTY()
+	UPatrolState* PatrolState = nullptr;
+	UPROPERTY()
+	UEngageState* EngageState = nullptr;
+	UPROPERTY()
+	UEvadeState* EvadeState = nullptr;
+	UPROPERTY()
+	UUnarmedState* UnarmedState = nullptr;
+	UPROPERTY()
+	UDeadState* DeadState = nullptr;
+	UPROPERTY()
+	UInvestigateState* InvestigateState = nullptr;
+	UPROPERTY()
+	UInjuredState* InjuredState = nullptr;
+	UPROPERTY()
+	UHideState* HideState = nullptr;
+	UPROPERTY()
+	UStunnedState* StunnedState = nullptr;
+
+	friend class UPatrolState;
+	friend class UEngageState;
+	friend class UEvadeState;
+	friend class UUnarmedState;
+	friend class UDeadState;
+	friend class UInvestigateState;
+	friend class UInjuredState;
+	friend class UHideState;
+	friend class UStunnedState;
+
+	//helper function to instantiate state objects at begin play
+	void InstantiateStates();
 };
