@@ -136,7 +136,6 @@ void UWeaponComponent::FireVisualImplementation(const FVector& BulletStart, cons
 		else
 		{
 			AGPGameInstance->SpawnGroundHitParticles(HitLocation);
-			UE_LOG(LogTemp, Display, TEXT("particles spawned"));
 		}
 	}
 }
