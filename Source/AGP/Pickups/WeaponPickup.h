@@ -43,6 +43,7 @@ protected:
 private:
 
 	void GenerateWeaponPickup();
+	void DestroyPickup();
 	EWeaponRarity WeaponRarityPicker();
 	TArray<bool> WeaponStatPicker(int32 NumOfGood, int32 NumOfStats);
 	

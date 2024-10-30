@@ -6,6 +6,7 @@
 #include "BaseCharacter.h"
 #include "HealthComponent.h"
 #include "PlayerCharacter.h"
+#include "BaseCharacter.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
@@ -56,13 +57,13 @@ void UWeaponComponent::CompleteReload()
 	UpdateAmmoUI();
 }
 
-bool UWeaponComponent::FireImplementation(const FVector& BulletStart, const FVector& FireAtLocation,
+ABaseCharacter*  UWeaponComponent::FireImplementation(const FVector& BulletStart, const FVector& FireAtLocation,
 	FVector& OutHitLocation)
 {
 	// Determine if the weapon is able to fire.
 	if (TimeSinceLastShot < WeaponStats.FireRate || IsMagazineEmpty())
 	{
-		return false;
+		return nullptr;
 	}
 
 	// In order to integrate the weapon accuracy, we will need some logic to shift the FireAtLocation.
@@ -87,10 +88,12 @@ bool UWeaponComponent::FireImplementation(const FVector& BulletStart, const FVec
 	FHitResult HitResult;
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(GetOwner());
+	ABaseCharacter* HitCharacter{};
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, BulletStart, AccuracyAdjustedFireAt, ECC_WorldStatic, QueryParams))
 	{
 		OutHitLocation = HitResult.ImpactPoint;
-		if (ABaseCharacter* HitCharacter = Cast<ABaseCharacter>(HitResult.GetActor()))
+		HitCharacter = Cast<ABaseCharacter>(HitResult.GetActor());
+		if (HitCharacter)
 		{
 			if (UHealthComponent* HitCharacterHealth = HitCharacter->GetComponentByClass<UHealthComponent>())
 			{
@@ -98,41 +101,60 @@ bool UWeaponComponent::FireImplementation(const FVector& BulletStart, const FVec
 			}
 			DrawDebugLine(GetWorld(), BulletStart, HitResult.ImpactPoint, FColor::Green, false, 1.0f);
 		}
-		else
-		{
-			DrawDebugLine(GetWorld(), BulletStart, HitResult.ImpactPoint, FColor::Orange, false, 1.0f);
-		}
-		
 	}
 	else
 	{
 		OutHitLocation = AccuracyAdjustedFireAt;
-		DrawDebugLine(GetWorld(), BulletStart, AccuracyAdjustedFireAt, FColor::Red, false, 1.0f);
 	}
 
 	TimeSinceLastShot = 0.0f;
 	RoundsRemainingInMagazine--;
 	UpdateAmmoUI();
-	return true;
+	return HitCharacter;
 }
 
-void UWeaponComponent::FireVisualImplementation(const FVector& BulletStart, const FVector& HitLocation)
+void UWeaponComponent::FireVisualImplementation(const FVector& BulletStart, const FVector& HitLocation, const ABaseCharacter* HitCharacter)
 {
-	DrawDebugLine(GetWorld(), BulletStart, HitLocation, FColor::Blue, false, 1.0f);
+	if (UAGPGameInstance* AGPGameInstance = Cast<UAGPGameInstance>(GetWorld()->GetGameInstance()))
+	{
+		if (ABaseCharacter* Owner = Cast<ABaseCharacter>(GetOwner()))
+		{
+			Owner->FireWeaponGraphical();
+			if (Owner->IsLocallyControlled())
+			{
+				AGPGameInstance->PlayGunshotSound2D();
+			}
+			else
+			{
+				AGPGameInstance->PlayGunshotSoundAtLocation(BulletStart);
+			}
+		}
+		if (HitCharacter)
+		{
+			AGPGameInstance->SpawnBloodSpatterParticles(HitCharacter->GetActorLocation());
+		}
+		else
+		{
+			AGPGameInstance->SpawnGroundHitParticles(HitLocation);
+			UE_LOG(LogTemp, Display, TEXT("particles spawned"));
+		}
+	}
 }
 
 void UWeaponComponent::ServerFire_Implementation(const FVector& BulletStart, const FVector& FireAtLocation)
 {
-	FVector HitLocation;
-	if (FireImplementation(BulletStart, FireAtLocation, HitLocation))
+	if (TimeSinceLastShot < WeaponStats.FireRate || IsMagazineEmpty())
 	{
-		MulticastFire(BulletStart, HitLocation);
+		return;
 	}
+	FVector HitLocation;
+	ABaseCharacter* HitCharacter = FireImplementation(BulletStart, FireAtLocation, HitLocation);
+	MulticastFire(BulletStart, HitLocation, HitCharacter);
 }
 
-void UWeaponComponent::MulticastFire_Implementation(const FVector& BulletStart, const FVector& HitLocation)
+void UWeaponComponent::MulticastFire_Implementation(const FVector& BulletStart, const FVector& HitLocation, const ABaseCharacter* HitCharacter)
 {
-	FireVisualImplementation(BulletStart, HitLocation);
+	FireVisualImplementation(BulletStart, HitLocation, HitCharacter);
 }
 
 void UWeaponComponent::SetWeaponStats(const FWeaponStats& WeaponInfo)

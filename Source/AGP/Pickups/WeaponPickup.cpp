@@ -4,6 +4,7 @@
 #include "WeaponPickup.h"
 
 #include "../Characters/PlayerCharacter.h"
+#include "../Pickups/PickupManagerSubsystem.h"
 #include "Net/UnrealNetwork.h"
 
 void AWeaponPickup::BeginPlay()
@@ -26,7 +27,7 @@ void AWeaponPickup::OnPickupOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	if (ABaseCharacter* Player = Cast<ABaseCharacter>(OtherActor))
 	{
 		Player->EquipWeapon(true, WeaponStats);
-		Destroy();
+		DestroyPickup();
 	}
 }
 
@@ -62,6 +63,14 @@ void AWeaponPickup::GenerateWeaponPickup()
 	WeaponStats.BaseDamage = GoodStats[2] ? FMath::RandRange(15.0f, 30.0f) : FMath::RandRange(5.0f, 15.0f);
 	WeaponStats.MagazineSize = GoodStats[3] ? FMath::RandRange(20, 100) : FMath::RandRange(1, 19);
 	WeaponStats.ReloadTime = GoodStats[4] ? FMath::RandRange(0.1f, 1.0f) : FMath::RandRange(1.0f, 4.0f);
+}
+
+void AWeaponPickup::DestroyPickup()
+{
+	if (UPickupManagerSubsystem* PickupManagerSubsystem = GetWorld()->GetSubsystem<UPickupManagerSubsystem>())
+	{
+		PickupManagerSubsystem->DestroyWeaponPickup(TPair<AWeaponPickup*, FVector>(this, this->GetActorLocation()));
+	}
 }
 
 EWeaponRarity AWeaponPickup::WeaponRarityPicker()

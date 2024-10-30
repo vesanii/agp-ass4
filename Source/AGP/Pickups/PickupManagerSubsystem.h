@@ -20,13 +20,14 @@ public:
 	{
 		return TStatId();
 	}
+	void DestroyWeaponPickup(TPair<AWeaponPickup*, FVector> PickupToDestroy);
 
 protected:
 	
 	/**
 	 * The world locations of all possible locations that a pickup can spawn.
 	 */
-	TArray<FVector> PossibleSpawnLocations;
+	TArray<TPair<AWeaponPickup*, FVector>> PossibleSpawnLocations;
 	float PickupSpawnRate = 5.0f;
 	float TimeSinceLastSpawn = 0.0f;
 	

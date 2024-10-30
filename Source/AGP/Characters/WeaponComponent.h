@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "WeaponComponent.generated.h"
 
+class ABaseCharacter;
+
 UENUM(BlueprintType)
 enum class EWeaponType : uint8 {
 	Rifle,
@@ -87,10 +89,10 @@ private:
 	void CompleteReload();
 	float CurrentReloadDuration = 0.0f;
 
-	bool FireImplementation(const FVector& BulletStart, const FVector& FireAtLocation, FVector& OutHitLocation);
-	void FireVisualImplementation(const FVector& BulletStart, const FVector& HitLocation);
+	ABaseCharacter* FireImplementation(const FVector& BulletStart, const FVector& FireAtLocation, FVector& OutHitLocation);
+	void FireVisualImplementation(const FVector& BulletStart, const FVector& HitLocation, const ABaseCharacter* HitCharacter = nullptr);
 	UFUNCTION(NetMulticast, Unreliable)
-	void MulticastFire(const FVector& BulletStart, const FVector& HitLocation);
+	void MulticastFire(const FVector& BulletStart, const FVector& HitLocation, const ABaseCharacter* HitCharacter = nullptr);
 	UFUNCTION(Server, Reliable)
 	void ServerFire(const FVector& BulletStart, const FVector& FireAtLocation);
 
@@ -98,5 +100,4 @@ private:
 	void ReloadImplementation();
 	UFUNCTION(Server, Reliable)
 	void ServerReload();
-	
 };

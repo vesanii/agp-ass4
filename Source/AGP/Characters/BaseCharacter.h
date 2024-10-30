@@ -34,6 +34,9 @@ public:
 
 	void OnDeath();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void FireWeaponGraphical();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
