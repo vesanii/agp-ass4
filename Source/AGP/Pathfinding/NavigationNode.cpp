@@ -29,14 +29,18 @@ void ANavigationNode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	/*FColor SphereColor = FColor::Blue;
-	if (ConnectedNodes.Contains(this))
+	FColor SphereColor = FColor::Blue;
+	if (bIsCoverNode)  
+	{
+		SphereColor = FColor::Purple; 
+	}
+	else if (ConnectedNodes.Contains(this))
 	{
 		SphereColor = FColor::Red;
 	}
-	
+
 	DrawDebugSphere(GetWorld(), GetActorLocation(), 50.0f, 4, SphereColor, false, -1, 0, 5.0f);
-	
+
 	for (const ANavigationNode* ConnectedNode : ConnectedNodes)
 	{
 		if (ConnectedNode)
@@ -49,11 +53,11 @@ void ANavigationNode::Tick(float DeltaTime)
 			DrawDebugLine(GetWorld(), GetActorLocation(), ConnectedNode->GetActorLocation(),
 				LineColor, false, -1, 0, 5.0f);
 		}
-	}*/
+	}
 }
+
 
 bool ANavigationNode::ShouldTickIfViewportsOnly() const
 {
 	return true;
 }
-

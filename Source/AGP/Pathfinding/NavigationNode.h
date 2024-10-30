@@ -27,9 +27,16 @@ protected:
 	TArray<ANavigationNode*> ConnectedNodes;
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* LocationComponent;
+	
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsCoverNode = false; 
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	bool IsCoverNode() const { return bIsCoverNode; }
+
 
 };
+

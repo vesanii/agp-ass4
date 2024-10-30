@@ -155,13 +155,19 @@ void AEnemyCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// DO NOTHING UNLESS IT IS ON THE SERVER
-	if (GetLocalRole() != ROLE_Authority) return;
+    if (GetLocalRole() != ROLE_Authority) return;
 
-	UpdateSight();
-	if (ActiveState && this)
-	{
-		ActiveState->Update(this, DeltaTime);
-	}
+    FString DebugString = FString::Printf(TEXT("Health: %.1f%%\nState: %s"),
+        HealthComponent ? HealthComponent->GetCurrentHealthPercentage() * 100.0f : 0.0f,
+        *GetStateName());
+
+    DrawDebugString(GetWorld(), GetActorLocation() + FVector(0, 0, 100), DebugString, nullptr, FColor::White, 0.0f, true);
+
+    UpdateSight();
+    if (ActiveState && this)
+    {
+        ActiveState->Update(this, DeltaTime);
+    }
 }
 
 // Called to bind functionality to input
@@ -197,5 +203,18 @@ void AEnemyCharacter::InstantiateStates()
 	InvestigateState = CreateDefaultSubobject<UInvestigateState>("InvestigateState");
 	InjuredState = CreateDefaultSubobject<UInjuredState>("InjuredState");
 	StunnedState = CreateDefaultSubobject<UStunnedState>("StunnedState");
+}
+
+FString AEnemyCharacter::GetStateName() const
+{
+    if (ActiveState == PatrolState) return "Patrol";
+    if (ActiveState == EngageState) return "Engage";
+    if (ActiveState == EvadeState) return "Evade";
+    if (ActiveState == UnarmedState) return "Unarmed";
+    if (ActiveState == DeadState) return "Dead";
+    if (ActiveState == InvestigateState) return "Investigate";
+    if (ActiveState == InjuredState) return "Injured";
+    if (ActiveState == StunnedState) return "Stunned";
+    return "Unknown";
 }
 
