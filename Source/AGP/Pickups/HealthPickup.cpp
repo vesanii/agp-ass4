@@ -19,6 +19,6 @@ void AHealthPickup::DestroyPickup()
 {
 	if (UPickupManagerSubsystem* PickupManagerSubsystem = GetWorld()->GetSubsystem<UPickupManagerSubsystem>())
 	{
-		PickupManagerSubsystem->DestroyHealthPickup(TPair<AHealthPickup*, FVector>(this, this->GetActorLocation()));
+		PickupManagerSubsystem->DestroyHealthPickup(this);
 	}
 }
