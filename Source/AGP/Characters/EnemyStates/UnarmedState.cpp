@@ -7,9 +7,9 @@
 void UUnarmedState::Entry(AEnemyCharacter* Owner)
 {
 	UE_LOG(LogTemp, Display, TEXT("State: Unarmed"));
-	if (Owner->CurrentPath.IsEmpty() && Owner->SensedWeapon)
+	if (Owner->CurrentPath.IsEmpty() && Owner->SensedWeapon.IsValid())
 	{
-		Owner->CreatePathTo(Owner->SensedWeapon);
+		Owner->CreatePathTo(Owner->SensedWeapon.Get());
 	}
 }
 
@@ -34,20 +34,19 @@ void UUnarmedState::Update(AEnemyCharacter* Owner, float DeltaTime)
 		return;
 	}
 	//return to patrol if any of the conditions are met
-	if (Owner->HasWeapon() || !Owner->SensedWeapon || Owner->CurrentPath.IsEmpty()) {
+	if (Owner->HasWeapon() || !Owner->SensedWeapon.IsValid()) {
 		Owner->ChangeState(Owner->PatrolState);
 		return;
 	}
 	//renew path if it runs out before state change
-	if (Owner->CurrentPath.IsEmpty() && Owner->SensedWeapon)
+	if (Owner->CurrentPath.IsEmpty() && Owner->SensedWeapon.IsValid())
 	{
-		Owner->CreatePathTo(Owner->SensedWeapon);
+		Owner->CreatePathTo(Owner->SensedWeapon.Get());
 	}
 	Owner->MoveAlongPath();
 }
 
 void UUnarmedState::Exit(AEnemyCharacter* Owner)
 {
-	Owner->SensedWeapon = nullptr;
 	Owner->EmptyCurrentPath();
 }

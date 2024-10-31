@@ -82,7 +82,6 @@ void UPickupManagerSubsystem::SpawnWeaponPickup()
 		}
 		else
 		{
-			SpawnPosition->Value.Z += 50.0f; // raise its position so it's not stuck in the floor
 			SpawnPosition->Key = GetWorld()->SpawnActor<AWeaponPickup>(GameInstance->GetWeaponPickupClass(), SpawnPosition->Value, FRotator::ZeroRotator); // spawn a bp_weaponpickup at the desired location
 			//UE_LOG(LogTemp, Warning, TEXT("Weapon Pickup Spawned"));
 		}
@@ -117,7 +116,6 @@ void UPickupManagerSubsystem::SpawnHealthPickup()
 		}
 		else
 		{
-			SpawnPosition->Value.Z += 50.0f; // raise its position so it's not stuck in the floor
 			SpawnPosition->Key = GetWorld()->SpawnActor<AHealthPickup>(GameInstance->GetHealthPickupClass(), SpawnPosition->Value, FRotator::ZeroRotator); // spawn a bp_healthpickup at the desired location
 			//UE_LOG(LogTemp, Warning, TEXT("Health Pickup Spawned"));
 		}
@@ -131,6 +129,7 @@ void UPickupManagerSubsystem::PopulateSpawnLocations()
 	TArray<FVector> Waypoints = GetWorld()->GetSubsystem<UPathfindingSubsystem>()->GetWaypointPositions();
 	for (FVector Waypoint : Waypoints)
 	{
+		Waypoint.Z += 50.0f; // raise its position so it's not stuck in the floor
 		PossibleWeaponSpawnLocations.Push(TPair<TWeakObjectPtr<AWeaponPickup>, FVector>(nullptr, Waypoint));
 		PossibleHealthSpawnLocations.Push(TPair<TWeakObjectPtr<AHealthPickup>, FVector>(nullptr, Waypoint));
 		//empty pointer means a weapon hasn't been spawned here yet

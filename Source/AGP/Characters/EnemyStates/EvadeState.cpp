@@ -11,6 +11,7 @@ void UEvadeState::Entry(AEnemyCharacter* Owner)
 	{
 		Owner->CreatePathAwayFrom(Owner->SensedCharacter.Get());
 	}
+	DistanceFromPlayer = 0.0f;
 }
 
 void UEvadeState::Update(AEnemyCharacter* Owner, float DeltaTime)
@@ -21,19 +22,24 @@ void UEvadeState::Update(AEnemyCharacter* Owner, float DeltaTime)
 		Owner->ChangeState(Owner->DeadState);
 		return;
 	}
+	//update distance from player
+	DistanceFromPlayer = FVector::Distance(Owner->GetActorLocation(), Owner->LastKnownCharacterLocation);
 	//if the player is lost and health is still below threshold
 	if (!Owner->SensedCharacter.IsValid() && Owner->GetHealth() < 0.4)
 	{
 		//return to patrol if no health pick up is found
-		if (!Owner->SensedHealUp)
+		if (!Owner->SensedHealUp.IsValid())
 		{
 			Owner->ChangeState(Owner->PatrolState);
 			return;
 		}
-		else //go to health pick up
+		else //go to health pick up if further from player by 1000cm
 		{
-			Owner->ChangeState(Owner->InjuredState);
-			return;
+			if (DistanceFromPlayer >= 1000.0f)
+			{
+				Owner->ChangeState(Owner->InjuredState);
+				return;
+			}
 		}
 	}
 	//if health somehow regained, return to engage

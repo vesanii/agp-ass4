@@ -27,12 +27,12 @@ void UPatrolState::Update(AEnemyCharacter* Owner, float DeltaTime)
 
 	//the following pickup checks are temporary until proper ai senses for weapons and health pickups are implemented
 	//search for weapon if required
-	if (!Owner->HasWeapon() && !Owner->SensedWeapon)
+	if (!Owner->HasWeapon() && !Owner->SensedWeapon.IsValid())
 	{
 		Owner->FindWeaponPickup();
 	}
 	//search for heal up if required
-	if (Owner->GetHealth() < 0.4f && !Owner->SensedHealUp)
+	if (Owner->GetHealth() < 0.4f && !Owner->SensedHealUp.IsValid())
 	{
 		Owner->FindHealthPickup();
 	}
@@ -44,13 +44,13 @@ void UPatrolState::Update(AEnemyCharacter* Owner, float DeltaTime)
 		return;
 	}
 	//if weapon found and none is equipped, go towards the weapon
-	if (!Owner->HasWeapon() && Owner->SensedWeapon)
+	if (!Owner->HasWeapon() && Owner->SensedWeapon.IsValid())
 	{
 		Owner->ChangeState(Owner->UnarmedState);
 		return;
 	}
 	//if available, look for health regen
-	if (Owner->GetHealth() < 0.4f && !Owner->SensedCharacter.IsValid() && Owner->SensedHealUp)
+	if (Owner->GetHealth() < 0.4f && !Owner->SensedCharacter.IsValid() && Owner->SensedHealUp.IsValid())
 	{
 		Owner->ChangeState(Owner->InjuredState);
 		return;

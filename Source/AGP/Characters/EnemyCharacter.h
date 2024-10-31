@@ -87,9 +87,9 @@ protected:
 	TWeakObjectPtr<APlayerCharacter> SensedCharacter = nullptr;
 
 	UPROPERTY()
-	AWeaponPickup* SensedWeapon = nullptr;
+	TWeakObjectPtr<AWeaponPickup> SensedWeapon = nullptr;
 	UPROPERTY()
-	AHealthPickup* SensedHealUp = nullptr;
+	TWeakObjectPtr<AHealthPickup> SensedHealUp = nullptr;
 	FVector LastKnownCharacterLocation;
 
 	/**
@@ -113,7 +113,7 @@ public:
 
 private:
 
-	//temporary functions for pickup sensing, to be replaced with ai perception in future
+	//helper functions to find the nearest pickup
 	void FindWeaponPickup();
 	void FindHealthPickup();
 

@@ -18,4 +18,7 @@ public:
 	void Entry(AEnemyCharacter* Owner) override;
 	void Update(AEnemyCharacter* Owner, float DeltaTime) override;
 	void Exit(AEnemyCharacter* Owner) override;
+
+private:
+	float DistanceFromPlayer = 0.0f;
 };
