@@ -64,6 +64,8 @@ protected:
 	void Investigate(const float& DeltaTime);
 	//main funtion of the FSM, used in the update function of states when paramters for a state change are met
 	void ChangeState(UBaseState* NewState) override;
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDeath();
 
 	/**
 	 * A pointer to the Pathfinding Subsystem.
