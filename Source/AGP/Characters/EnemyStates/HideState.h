@@ -20,7 +20,6 @@ public:
 	void Exit(AEnemyCharacter* Owner) override;
 
 private:
-	bool bReachedCover = false;
 	float CooldownTime = 2.0f; 
 	float ElapsedTime = 0.0f;
 	float HealingRate = 5.0f;

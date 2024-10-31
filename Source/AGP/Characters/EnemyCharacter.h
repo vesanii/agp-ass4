@@ -108,6 +108,12 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	FString GetStateName() const;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
+    bool bIsInCover = false;
+    
+    UFUNCTION(BlueprintCallable, Category = "State")
+    bool IsEnemyInCover() const;
+
 
 private:
 
@@ -150,6 +156,5 @@ private:
 	//helper function to instantiate state objects at begin play
 	void InstantiateStates();
 
-	bool bIsInCover;  
     float HideCooldown = 0.0f;
 };

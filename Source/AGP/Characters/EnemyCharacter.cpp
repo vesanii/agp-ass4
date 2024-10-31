@@ -164,6 +164,8 @@ void AEnemyCharacter::Tick(float DeltaTime)
 
     DrawDebugString(GetWorld(), GetActorLocation() + FVector(0, 0, 100), DebugString, nullptr, FColor::White, 0.0f, true);
 
+	bIsInCover = (ActiveState == HideState);
+
     UpdateSight();
     if (ActiveState && this)
     {
@@ -222,3 +224,10 @@ FString AEnemyCharacter::GetStateName() const
     return "Unknown";
 }
 
+bool AEnemyCharacter::IsEnemyInCover() const
+{
+    if (ActiveState == HideState) {
+        return bIsInCover;
+    }
+    return false;
+}
