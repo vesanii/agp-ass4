@@ -56,6 +56,8 @@ protected:
 	
 	UPROPERTY(EditAnywhere)
 	bool bShouldRegenerate;
+	UPROPERTY(EditAnywhere)
+	bool bShouldHaveDiagonalConnections = true;
 	
 public:	
 	// Called every frame

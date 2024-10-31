@@ -54,7 +54,7 @@ public:
 	 * @param MapWidth The grid width of the landscape.
 	 * @param MapHeight The grid height of the landscape.
 	 */
-	void PlaceProceduralNodes(const TArray<FVector>& LandscapeVertexData, int32 MapWidth, int32 MapHeight);
+	void PlaceProceduralNodes(const TArray<FVector>& LandscapeVertexData, int32 MapWidth, int32 MapHeight, bool bShouldHaveDiagonalConnections = true);
 
 protected:
 	

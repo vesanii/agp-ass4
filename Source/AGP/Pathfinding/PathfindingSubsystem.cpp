@@ -40,7 +40,7 @@ TArray<FVector> UPathfindingSubsystem::GetPathAway(const FVector& StartLocation,
 	return GetPath(FindNearestNode(StartLocation), FindFurthestNode(TargetLocation));
 }
 
-void UPathfindingSubsystem::PlaceProceduralNodes(const TArray<FVector>& LandscapeVertexData, int32 MapWidth, int32 MapHeight)
+void UPathfindingSubsystem::PlaceProceduralNodes(const TArray<FVector>& LandscapeVertexData, int32 MapWidth, int32 MapHeight, bool bShouldHaveDiagonalConnections)
 {
 	// Need to destroy all of the current nodes in the world.
 	RemoveAllNodes();
@@ -82,18 +82,21 @@ void UPathfindingSubsystem::PlaceProceduralNodes(const TArray<FVector>& Landscap
 				// Add Down
 				if (Y != 0)
 					CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y-1) * MapWidth + X]);
-				// Add UpLeft
-				if (X != MapWidth-1 && Y != MapHeight-1)
-					CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y+1) * MapWidth + X+1]);
-				// Add UpRight
-				if (X != 0 && Y != MapHeight-1)
-					CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y+1) * MapWidth + X-1]);
-				// Add DownRight
-				if (X != 0 && Y != 0)
-					CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y-1) * MapWidth+ X-1]);
-				// Add DownLeft
-				if (X != MapWidth-1 && Y != 0)
-					CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y-1) * MapWidth + X+1]);
+				if (bShouldHaveDiagonalConnections)
+				{
+					// Add UpLeft
+					if (X != MapWidth - 1 && Y != MapHeight - 1)
+						CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y + 1) * MapWidth + X + 1]);
+					// Add UpRight
+					if (X != 0 && Y != MapHeight - 1)
+						CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y + 1) * MapWidth + X - 1]);
+					// Add DownRight
+					if (X != 0 && Y != 0)
+						CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y - 1) * MapWidth + X - 1]);
+					// Add DownLeft
+					if (X != MapWidth - 1 && Y != 0)
+						CurrentNode->ConnectedNodes.Add(ProcedurallyPlacedNodes[(Y - 1) * MapWidth + X + 1]);
+				}
 			}
 		}
 	}

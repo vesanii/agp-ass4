@@ -107,7 +107,7 @@ void AProceduralLandscape::GenerateLandscape()
 			TArray<FColor>(), Tangents, true);
 		if (UPathfindingSubsystem* PathfindingSubsystem = GetWorld()->GetSubsystem<UPathfindingSubsystem>())
 		{
-			PathfindingSubsystem->PlaceProceduralNodes(Vertices, Width, Height);
+			PathfindingSubsystem->PlaceProceduralNodes(Vertices, Width, Height, bShouldHaveDiagonalConnections);
 		} else
 		{
 			UE_LOG(LogTemp, Error, TEXT("Can't find the pathfinding subsystem"))
