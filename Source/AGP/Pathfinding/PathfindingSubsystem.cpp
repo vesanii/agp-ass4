@@ -285,3 +285,30 @@ TArray<FVector> UPathfindingSubsystem::ReconstructPath(const TMap<ANavigationNod
 	return NodeLocations;
 }
 
+
+// cover node pathfind
+ANavigationNode* UPathfindingSubsystem::FindNearestCoverNode(const FVector& TargetLocation)
+{
+    if (Nodes.Num() == 0)
+    {
+        UE_LOG(LogTemp, Error, TEXT("The nodes array is empty."));
+        return nullptr;
+    }
+
+    ANavigationNode* ClosestCoverNode = nullptr;
+    float MinDistance = UE_MAX_FLT;
+    for (ANavigationNode* Node : Nodes)
+    {
+        if (Node->IsCoverNode()) // check if the node is a cover node
+        {
+            const float Distance = FVector::Distance(TargetLocation, Node->GetActorLocation());
+            if (Distance < MinDistance)
+            {
+                MinDistance = Distance;
+                ClosestCoverNode = Node;
+            }
+        }
+    }
+
+    return ClosestCoverNode;
+}

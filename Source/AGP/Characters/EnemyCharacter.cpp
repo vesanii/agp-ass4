@@ -157,7 +157,8 @@ void AEnemyCharacter::Tick(float DeltaTime)
 	// DO NOTHING UNLESS IT IS ON THE SERVER
     if (GetLocalRole() != ROLE_Authority) return;
 
-    FString DebugString = FString::Printf(TEXT("Health: %.1f%%\nState: %s"),
+    // debug
+	FString DebugString = FString::Printf(TEXT("Health: %.1f%%\nState: %s"),
         HealthComponent ? HealthComponent->GetCurrentHealthPercentage() * 100.0f : 0.0f,
         *GetStateName());
 
@@ -203,8 +204,10 @@ void AEnemyCharacter::InstantiateStates()
 	InvestigateState = CreateDefaultSubobject<UInvestigateState>("InvestigateState");
 	InjuredState = CreateDefaultSubobject<UInjuredState>("InjuredState");
 	StunnedState = CreateDefaultSubobject<UStunnedState>("StunnedState");
+	HideState = CreateDefaultSubobject<UHideState>("HideState");
 }
 
+// strings for debug
 FString AEnemyCharacter::GetStateName() const
 {
     if (ActiveState == PatrolState) return "Patrol";
@@ -215,6 +218,7 @@ FString AEnemyCharacter::GetStateName() const
     if (ActiveState == InvestigateState) return "Investigate";
     if (ActiveState == InjuredState) return "Injured";
     if (ActiveState == StunnedState) return "Stunned";
+	if (ActiveState == HideState) return "Hide/Cover";
     return "Unknown";
 }
 

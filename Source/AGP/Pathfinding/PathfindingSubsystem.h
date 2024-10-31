@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
+#include "NavigationNode.h"
 #include "PathfindingSubsystem.generated.h"
+
 
 class ANavigationNode;
 /**
@@ -55,6 +57,8 @@ public:
 	 * @param MapHeight The grid height of the landscape.
 	 */
 	void PlaceProceduralNodes(const TArray<FVector>& LandscapeVertexData, int32 MapWidth, int32 MapHeight, bool bShouldHaveDiagonalConnections = true);
+
+	ANavigationNode* FindNearestCoverNode(const FVector& TargetLocation);
 
 protected:
 	

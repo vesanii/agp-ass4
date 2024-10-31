@@ -149,4 +149,7 @@ private:
 
 	//helper function to instantiate state objects at begin play
 	void InstantiateStates();
+
+	bool bIsInCover;  
+    float HideCooldown = 0.0f;
 };
