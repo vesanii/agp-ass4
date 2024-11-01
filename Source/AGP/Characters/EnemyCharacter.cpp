@@ -75,7 +75,7 @@ void AEnemyCharacter::UpdateSight()
 	{
 		return;
 	}
-	LastKnownCharacterLocation = SensedCharacter->GetActorLocation();
+	LastKnownCharacterLocation = SensedCharacter.Get()->GetActorLocation();
 	if (PawnSensingComponent)
 	{
 		if (!PawnSensingComponent->HasLineOfSightTo(SensedCharacter.Get()))

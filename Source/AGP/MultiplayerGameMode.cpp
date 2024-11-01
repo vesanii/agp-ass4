@@ -4,6 +4,8 @@
 #include "MultiplayerGameMode.h"
 
 #include "Characters/PlayerCharacter.h"
+#include "Characters/EnemyCharacter.h"
+#include <Engine.h>
 
 void AMultiplayerGameMode::RespawnPlayer(AController* Controller)
 {
@@ -21,5 +23,23 @@ void AMultiplayerGameMode::RespawnPlayer(AController* Controller)
 			}
 		}
 	}
-	
+}
+
+void AMultiplayerGameMode::RespawnEnemy(AController* Controller)
+{
+	if (Controller)
+	{
+		if (AEnemyCharacter* CurrentEnemyCharacter = Cast<AEnemyCharacter>(Controller->GetPawn()))
+		{
+			Controller->Destroy();
+			CurrentEnemyCharacter->Destroy();
+			for (TActorIterator<APlayerStart> StartSpot(GetWorld()); StartSpot; ++StartSpot)
+			{
+				if (StartSpot->PlayerStartTag == FName("Enemy"))
+				{
+					AEnemyCharacter* NewEnemyCharacter = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyCharacterClass.Get(), StartSpot->GetActorLocation(), FRotator::ZeroRotator);
+				}
+			}
+		}
+	}
 }
