@@ -36,22 +36,38 @@ void UPickupManagerSubsystem::Tick(float DeltaTime)
 	}
 }
 
-void UPickupManagerSubsystem::DestroyWeaponPickup(AWeaponPickup* PickupToDestroy)
+void UPickupManagerSubsystem::DestroyWeaponPickup(TPair<AWeaponPickup*, FVector> PickupToDestroy)
 {
 	if (GetWorld()->GetNetMode() >= NM_Client)
 	{
 		return;
 	}
-	PickupToDestroy->Destroy();
+	int32 index = PossibleWeaponSpawnLocations.Find(PickupToDestroy);
+	if (index < PossibleWeaponSpawnLocations.Num() && index >= 0)
+	{
+		TPair<AWeaponPickup*, FVector>* Pair = &PossibleWeaponSpawnLocations[index];
+		if (Pair->Key)
+		{
+			Pair->Key->Destroy();
+		}
+	}
 }
 
-void UPickupManagerSubsystem::DestroyHealthPickup(AHealthPickup* PickupToDestroy)
+void UPickupManagerSubsystem::DestroyHealthPickup(TPair<AHealthPickup*, FVector> PickupToDestroy)
 {
 	if (GetWorld()->GetNetMode() >= NM_Client)
 	{
 		return;
 	}
-	PickupToDestroy->Destroy();
+	int32 index = PossibleHealthSpawnLocations.Find(PickupToDestroy);
+	if (index < PossibleHealthSpawnLocations.Num() && index >= 0)
+	{
+		TPair<AHealthPickup*, FVector>* Pair = &PossibleHealthSpawnLocations[index];
+		if (Pair->Key)
+		{
+			Pair->Key->Destroy();
+		}
+	}
 }
 
 void UPickupManagerSubsystem::SpawnWeaponPickup()
@@ -66,22 +82,23 @@ void UPickupManagerSubsystem::SpawnWeaponPickup()
 		int32 RandIndex = FMath::RandRange(0, PossibleWeaponSpawnLocations.Num() - 1);
 		if (RandIndex < PossibleHealthSpawnLocations.Num())
 		{
-			TPair<TWeakObjectPtr<AHealthPickup>, FVector>* PossibleSpawnPosition = &PossibleHealthSpawnLocations[RandIndex];
-			if (PossibleSpawnPosition->Key.IsValid())
+			TPair<AHealthPickup*, FVector>* PossibleSpawnPosition = &PossibleHealthSpawnLocations[RandIndex];
+			if (PossibleSpawnPosition->Key)
 			{
 				UE_LOG(LogTemp, Display, TEXT("Weapon pickup failed to spawn on top of health pickup"));
 				return;
 			}
 		}
-		TPair<TWeakObjectPtr<AWeaponPickup>, FVector>* SpawnPosition = &PossibleWeaponSpawnLocations[RandIndex];
-		if (SpawnPosition->Key.IsValid())
+		TPair<AWeaponPickup*, FVector>* SpawnPosition = &PossibleWeaponSpawnLocations[RandIndex];
+		if (SpawnPosition->Key)
 		{
-			SpawnPosition->Key.Get()->Destroy();
+			SpawnPosition->Key->Destroy();
 			SpawnPosition->Key = GetWorld()->SpawnActor<AWeaponPickup>(GameInstance->GetWeaponPickupClass(), SpawnPosition->Value, FRotator::ZeroRotator);
 			//UE_LOG(LogTemp, Warning, TEXT("Weapon Pickup Replaced"));
 		}
 		else
 		{
+			SpawnPosition->Value.Z += 50.0f; // raise its position so it's not stuck in the floor
 			SpawnPosition->Key = GetWorld()->SpawnActor<AWeaponPickup>(GameInstance->GetWeaponPickupClass(), SpawnPosition->Value, FRotator::ZeroRotator); // spawn a bp_weaponpickup at the desired location
 			//UE_LOG(LogTemp, Warning, TEXT("Weapon Pickup Spawned"));
 		}
@@ -100,22 +117,23 @@ void UPickupManagerSubsystem::SpawnHealthPickup()
 		int32 RandIndex = FMath::RandRange(0, PossibleHealthSpawnLocations.Num() - 1);
 		if (RandIndex < PossibleWeaponSpawnLocations.Num())
 		{
-			TPair<TWeakObjectPtr<AWeaponPickup>, FVector>* PossibleSpawnPosition = &PossibleWeaponSpawnLocations[RandIndex];
-			if (PossibleSpawnPosition->Key.IsValid())
+			TPair<AWeaponPickup*, FVector>* PossibleSpawnPosition = &PossibleWeaponSpawnLocations[RandIndex];
+			if (PossibleSpawnPosition->Key)
 			{
 				UE_LOG(LogTemp, Display, TEXT("Health pickup failed to spawn on top of weapon pickup"));
 				return;
 			}
 		}
-		TPair<TWeakObjectPtr<AHealthPickup>, FVector>* SpawnPosition = &PossibleHealthSpawnLocations[RandIndex];
-		if (SpawnPosition->Key.IsValid())
+		TPair<AHealthPickup*, FVector>* SpawnPosition = &PossibleHealthSpawnLocations[RandIndex]; 
+		if (SpawnPosition->Key)
 		{
-			SpawnPosition->Key.Get()->Destroy();
+			SpawnPosition->Key->Destroy();
 			SpawnPosition->Key = GetWorld()->SpawnActor<AHealthPickup>(GameInstance->GetHealthPickupClass(), SpawnPosition->Value, FRotator::ZeroRotator);
 			//UE_LOG(LogTemp, Warning, TEXT("Health Pickup Replaced"));
 		}
 		else
 		{
+			SpawnPosition->Value.Z += 50.0f; // raise its position so it's not stuck in the floor
 			SpawnPosition->Key = GetWorld()->SpawnActor<AHealthPickup>(GameInstance->GetHealthPickupClass(), SpawnPosition->Value, FRotator::ZeroRotator); // spawn a bp_healthpickup at the desired location
 			//UE_LOG(LogTemp, Warning, TEXT("Health Pickup Spawned"));
 		}
@@ -129,9 +147,8 @@ void UPickupManagerSubsystem::PopulateSpawnLocations()
 	TArray<FVector> Waypoints = GetWorld()->GetSubsystem<UPathfindingSubsystem>()->GetWaypointPositions();
 	for (FVector Waypoint : Waypoints)
 	{
-		Waypoint.Z += 50.0f; // raise its position so it's not stuck in the floor
-		PossibleWeaponSpawnLocations.Push(TPair<TWeakObjectPtr<AWeaponPickup>, FVector>(nullptr, Waypoint));
-		PossibleHealthSpawnLocations.Push(TPair<TWeakObjectPtr<AHealthPickup>, FVector>(nullptr, Waypoint));
+		PossibleWeaponSpawnLocations.Push(TPair<AWeaponPickup*, FVector>(nullptr, Waypoint));
+		PossibleHealthSpawnLocations.Push(TPair<AHealthPickup*, FVector>(nullptr, Waypoint));
 		//empty pointer means a weapon hasn't been spawned here yet
 	}
 }

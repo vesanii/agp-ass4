@@ -11,15 +11,6 @@ void UDeadState::Entry(AEnemyCharacter* Owner)
 	{
 		Owner->EmptyCurrentPath();
 	}
-	Owner->OnDeath();
-}
-
-void UDeadState::Update(AEnemyCharacter* Owner, float DeltaTime)
-{
-	TimeUntilDestroy -= DeltaTime;
-	if (TimeUntilDestroy <= 0)
-	{
-		Owner->Destroy();
-	}
+	Owner->Destroy();
 }
 

@@ -20,7 +20,4 @@ public:
 	void Exit(AEnemyCharacter* Owner) override;
 	bool bCoverNodeAssigned = false;
 
-
-private:
-	float DistanceFromPlayer = 0.0f;
 };

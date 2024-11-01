@@ -182,34 +182,18 @@ void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void AEnemyCharacter::FindWeaponPickup()
 {
-	AWeaponPickup* ClosestPickup = nullptr;
-	float MinDistance = UE_MAX_FLT;
-	for (TActorIterator<AWeaponPickup> Pickup(GetWorld()); Pickup; ++Pickup)
+	for (TActorIterator<AWeaponPickup> It(GetWorld()); It; ++It)
 	{
-		const float Distance = FVector::Distance(GetActorLocation(), Pickup->GetActorLocation());
-		if (Distance < MinDistance)
-		{
-			MinDistance = Distance;
-			ClosestPickup = *Pickup;
-		}
+		SensedWeapon = *It;
 	}
-	SensedWeapon = ClosestPickup;
 }
 
 void AEnemyCharacter::FindHealthPickup()
 {
-	AHealthPickup* ClosestPickup = nullptr;
-	float MinDistance = UE_MAX_FLT;
-	for (TActorIterator<AHealthPickup> Pickup(GetWorld()); Pickup; ++Pickup)
+	for (TActorIterator<AHealthPickup> It(GetWorld()); It; ++It)
 	{
-		const float Distance = FVector::Distance(GetActorLocation(), Pickup->GetActorLocation());
-		if (Distance < MinDistance)
-		{
-			MinDistance = Distance;
-			ClosestPickup = *Pickup;
-		}
+		SensedHealUp = *It;
 	}
-	SensedHealUp = ClosestPickup;
 }
 
 void AEnemyCharacter::InstantiateStates()

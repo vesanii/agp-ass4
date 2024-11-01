@@ -7,9 +7,9 @@
 void UInjuredState::Entry(AEnemyCharacter* Owner)
 {
 	UE_LOG(LogTemp, Display, TEXT("State: Injured"));
-	if (Owner->CurrentPath.IsEmpty() && Owner->SensedHealUp.IsValid())
+	if (Owner->CurrentPath.IsEmpty() && Owner->SensedHealUp)
 	{
-		Owner->CreatePathTo(Owner->SensedHealUp.Get());
+		Owner->CreatePathTo(Owner->SensedHealUp);
 	}
 }
 
@@ -28,20 +28,16 @@ void UInjuredState::Update(AEnemyCharacter* Owner, float DeltaTime)
 		return;
 	}
 	//if health pickup acquired, lost, or path expended, return to patrol
-	if (Owner->GetHealth() >= 0.4f || !Owner->SensedHealUp.IsValid()) 
+	if (Owner->GetHealth() >= 0.4f || !Owner->SensedHealUp || Owner->CurrentPath.IsEmpty()) 
 	{
 		Owner->ChangeState(Owner->PatrolState);
 		return;
-	}
-	//renew path if it runs out before state change
-	if (Owner->CurrentPath.IsEmpty() && Owner->SensedHealUp.IsValid())
-	{
-		Owner->CreatePathTo(Owner->SensedHealUp.Get());
 	}
 	Owner->MoveAlongPath();
 }
 
 void UInjuredState::Exit(AEnemyCharacter* Owner)
 {
+	Owner->SensedHealUp = nullptr;
 	Owner->EmptyCurrentPath();
 }

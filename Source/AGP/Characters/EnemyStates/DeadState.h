@@ -16,8 +16,4 @@ class AGP_API UDeadState : public UBaseState
 	
 public:
 	void Entry(AEnemyCharacter* Owner) override;
-	void Update(AEnemyCharacter* Owner, float DeltaTime) override;
-
-private:
-	float TimeUntilDestroy = 3.0f;
 };
