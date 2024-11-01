@@ -44,7 +44,7 @@ void UAGPGameInstance::RespawnEnemy(AController* Controller)
 			CurrentEnemyCharacter->Destroy();
 			for (TActorIterator<APlayerStart> StartSpot(GetWorld()); StartSpot; ++StartSpot)
 			{
-				if (StartSpot->PlayerStartTag == FName("Enemy"))
+				if (StartSpot->PlayerStartTag == FName("EnemyStart"))
 				{
 					AEnemyCharacter* NewEnemyCharacter = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyCharacterClass.Get(), StartSpot->GetActorLocation(), FRotator::ZeroRotator);
 				}
