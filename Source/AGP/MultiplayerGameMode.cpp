@@ -15,7 +15,13 @@ void AMultiplayerGameMode::RespawnPlayer(AController* Controller)
 		{
 			Controller->UnPossess();
 			CurrentlyPossessedCharacter->Destroy();
-			RestartPlayer(Controller);
+			for (TActorIterator<APlayerStart> StartSpot(GetWorld()); StartSpot; ++StartSpot)
+			{
+				if (StartSpot->PlayerStartTag == FName("PlayerStart"))
+				{
+					RestartPlayerAtPlayerStart(Controller, *StartSpot);
+				}
+			}
 			if (APlayerCharacter* NewPossessedCharacter = Cast<APlayerCharacter>(Controller->GetPawn()))
 			{
 				NewPossessedCharacter->ChooseCharacterMesh();

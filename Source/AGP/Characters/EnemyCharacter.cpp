@@ -22,6 +22,13 @@ void AEnemyCharacter::BeginPlay()
 	if (GetLocalRole() != ROLE_Authority) return;
 	SensedCharacter.Reset();
 
+	if (!BulletStartPosition)
+	{
+		BulletStartPosition = NewObject<USceneComponent>(this);
+		BulletStartPosition->RegisterComponent();
+		BulletStartPosition->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+	}
+
 	PathfindingSubsystem = GetWorld()->GetSubsystem<UPathfindingSubsystem>();
 	if (!PathfindingSubsystem)
 	{

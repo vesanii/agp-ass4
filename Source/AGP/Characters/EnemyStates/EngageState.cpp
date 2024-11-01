@@ -21,6 +21,12 @@ void UEngageState::Update(AEnemyCharacter* Owner, float DeltaTime)
 		Owner->ChangeState(Owner->DeadState);
 		return;
 	}
+	//in case the enemy is somehow in the engage state without a weapon
+	if (!Owner->HasWeapon())
+	{
+		Owner->ChangeState(Owner->UnarmedState);
+		return;
+	}
 	//if character receives more than 15 damage at one time at full health, they are stunned
 	if (Owner->IsStunned())
 	{
@@ -40,7 +46,7 @@ void UEngageState::Update(AEnemyCharacter* Owner, float DeltaTime)
 		return;
 	}
 
-	if (Owner->SensedCharacter.IsValid())
+	if (Owner->SensedCharacter.IsValid() && Owner->WeaponComponent)
 	{
 		Owner->Fire(Owner->SensedCharacter.Get()->GetActorLocation());
 	}
