@@ -7,6 +7,7 @@
 #include "MultiplayerGameMode.generated.h"
 
 class APlayerCharacter;
+class AEnemyCharacter;
 /**
  * 
  */
@@ -16,12 +17,9 @@ class AGP_API AMultiplayerGameMode : public AGameMode
 	GENERATED_BODY()
 
 public:
-
 	void RespawnPlayer(AController* Controller);
 
 protected:
-
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<APlayerCharacter> PlayerCharacterClass;
-	
+	TSubclassOf<APlayerCharacter> PlayerCharacterClass;	
 };

@@ -10,9 +10,7 @@ AEnemyCharacter::AEnemyCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>("Pawn Sensing Component");
-	InstantiateStates();
+	
 }
 
 // Called when the game starts or when spawned
@@ -22,12 +20,15 @@ void AEnemyCharacter::BeginPlay()
 
 	// DO NOTHING IF NOT ON THE SERVER
 	if (GetLocalRole() != ROLE_Authority) return;
-	
+	SensedCharacter.Reset();
+
 	PathfindingSubsystem = GetWorld()->GetSubsystem<UPathfindingSubsystem>();
 	if (!PathfindingSubsystem)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Unable to find the PathfindingSubsystem"))
 	}
+	PawnSensingComponent = NewObject<UPawnSensingComponent>(this);
+	PawnSensingComponent->RegisterComponent();
 	if (PawnSensingComponent)
 	{
 		PawnSensingComponent->OnSeePawn.AddDynamic(this, &AEnemyCharacter::OnSensedPawn);
@@ -37,6 +38,7 @@ void AEnemyCharacter::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Unable to find PawnSensingComponent"));
 	}
+	InstantiateStates();
 	ChangeState(PatrolState);
 }
 
@@ -75,7 +77,7 @@ void AEnemyCharacter::UpdateSight()
 	{
 		return;
 	}
-	LastKnownCharacterLocation = SensedCharacter->GetActorLocation();
+	LastKnownCharacterLocation = SensedCharacter.Get()->GetActorLocation();
 	if (PawnSensingComponent)
 	{
 		if (!PawnSensingComponent->HasLineOfSightTo(SensedCharacter.Get()))
@@ -213,15 +215,15 @@ void AEnemyCharacter::FindHealthPickup()
 
 void AEnemyCharacter::InstantiateStates()
 {
-	PatrolState = CreateDefaultSubobject<UPatrolState>("PatrolState");
-	EngageState = CreateDefaultSubobject<UEngageState>("EngageState");
-	EvadeState = CreateDefaultSubobject<UEvadeState>("EvadeState");
-	UnarmedState = CreateDefaultSubobject<UUnarmedState>("UnarmedState");
-	DeadState = CreateDefaultSubobject<UDeadState>("DeadState");
-	InvestigateState = CreateDefaultSubobject<UInvestigateState>("InvestigateState");
-	InjuredState = CreateDefaultSubobject<UInjuredState>("InjuredState");
-	StunnedState = CreateDefaultSubobject<UStunnedState>("StunnedState");
-	HideState = CreateDefaultSubobject<UHideState>("HideState");
+	PatrolState = NewObject<UPatrolState>(this);
+	EngageState = NewObject<UEngageState>(this);
+	EvadeState = NewObject<UEvadeState>(this);
+	UnarmedState = NewObject<UUnarmedState>(this);
+	DeadState = NewObject<UDeadState>(this);
+	InvestigateState = NewObject<UInvestigateState>(this);
+	InjuredState = NewObject<UInjuredState>(this);
+	StunnedState = NewObject<UStunnedState>(this);
+	HideState = NewObject<UHideState>(this);
 }
 
 FString AEnemyCharacter::GetStateName() const

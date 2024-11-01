@@ -8,6 +8,7 @@
 #include "PlayerCharacter.h"
 #include "BaseCharacter.h"
 #include "Net/UnrealNetwork.h"
+#include <AGP/AGPGameInstance.h>
 
 // Sets default values for this component's properties
 UWeaponComponent::UWeaponComponent()
@@ -99,7 +100,6 @@ ABaseCharacter*  UWeaponComponent::FireImplementation(const FVector& BulletStart
 			{
 				HitCharacterHealth->ApplyDamage(WeaponStats.BaseDamage);
 			}
-			DrawDebugLine(GetWorld(), BulletStart, HitResult.ImpactPoint, FColor::Green, false, 1.0f);
 		}
 	}
 	else
