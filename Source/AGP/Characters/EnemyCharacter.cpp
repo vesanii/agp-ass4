@@ -10,7 +10,7 @@ AEnemyCharacter::AEnemyCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>("Pawn Sensing Component");
+	
 }
 
 // Called when the game starts or when spawned
@@ -20,13 +20,15 @@ void AEnemyCharacter::BeginPlay()
 
 	// DO NOTHING IF NOT ON THE SERVER
 	if (GetLocalRole() != ROLE_Authority) return;
-	InstantiateStates();
+	SensedCharacter.Reset();
 
 	PathfindingSubsystem = GetWorld()->GetSubsystem<UPathfindingSubsystem>();
 	if (!PathfindingSubsystem)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Unable to find the PathfindingSubsystem"))
 	}
+	PawnSensingComponent = NewObject<UPawnSensingComponent>(this);
+	PawnSensingComponent->RegisterComponent();
 	if (PawnSensingComponent)
 	{
 		PawnSensingComponent->OnSeePawn.AddDynamic(this, &AEnemyCharacter::OnSensedPawn);
@@ -36,6 +38,7 @@ void AEnemyCharacter::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Unable to find PawnSensingComponent"));
 	}
+	InstantiateStates();
 	ChangeState(PatrolState);
 }
 
