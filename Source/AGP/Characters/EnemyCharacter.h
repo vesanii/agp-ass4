@@ -64,6 +64,8 @@ protected:
 	void Investigate(const float& DeltaTime);
 	//main funtion of the FSM, used in the update function of states when paramters for a state change are met
 	void ChangeState(UBaseState* NewState) override;
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDeath();
 
 	/**
 	 * A pointer to the Pathfinding Subsystem.
@@ -85,9 +87,9 @@ protected:
 	TWeakObjectPtr<APlayerCharacter> SensedCharacter = nullptr;
 
 	UPROPERTY()
-	AWeaponPickup* SensedWeapon = nullptr;
+	TWeakObjectPtr<AWeaponPickup> SensedWeapon = nullptr;
 	UPROPERTY()
-	AHealthPickup* SensedHealUp = nullptr;
+	TWeakObjectPtr<AHealthPickup> SensedHealUp = nullptr;
 	FVector LastKnownCharacterLocation;
 
 	/**
@@ -117,7 +119,7 @@ public:
 
 private:
 
-	//temporary functions for pickup sensing, to be replaced with ai perception in future
+	//helper functions to find the nearest pickup
 	void FindWeaponPickup();
 	void FindHealthPickup();
 

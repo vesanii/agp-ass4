@@ -21,16 +21,16 @@ public:
 	{
 		return TStatId();
 	}
-	void DestroyWeaponPickup(TPair<AWeaponPickup*, FVector> PickupToDestroy);
-	void DestroyHealthPickup(TPair<AHealthPickup*, FVector> PickupToDestroy);
+	void DestroyWeaponPickup(AWeaponPickup* PickupToDestroy);
+	void DestroyHealthPickup(AHealthPickup* PickupToDestroy);
 
 protected:
 	
 	/**
 	 * The world locations of all possible locations that a pickup can spawn.
 	 */
-	TArray<TPair<AWeaponPickup*, FVector>> PossibleWeaponSpawnLocations;
-	TArray<TPair<AHealthPickup*, FVector>> PossibleHealthSpawnLocations;
+	TArray<TPair<TWeakObjectPtr<AWeaponPickup>, FVector>> PossibleWeaponSpawnLocations;
+	TArray<TPair<TWeakObjectPtr<AHealthPickup>, FVector>> PossibleHealthSpawnLocations;
 	float PickupSpawnRate = 5.0f;
 	float TimeSinceLastSpawn = 0.0f;
 	

@@ -69,7 +69,7 @@ void AWeaponPickup::DestroyPickup()
 {
 	if (UPickupManagerSubsystem* PickupManagerSubsystem = GetWorld()->GetSubsystem<UPickupManagerSubsystem>())
 	{
-		PickupManagerSubsystem->DestroyWeaponPickup(TPair<AWeaponPickup*, FVector>(this, this->GetActorLocation()));
+		PickupManagerSubsystem->DestroyWeaponPickup(this);
 	}
 }
 
