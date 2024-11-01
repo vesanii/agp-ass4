@@ -3,7 +3,7 @@
 
 #include "DeadState.h"
 #include "AGP/Characters/EnemyCharacter.h"
-#include <AGP/MultiplayerGameMode.h>
+#include <AGP/AGPGameInstance.h>
 
 void UDeadState::Entry(AEnemyCharacter* Owner)
 {
@@ -20,10 +20,10 @@ void UDeadState::Update(AEnemyCharacter* Owner, float DeltaTime)
 	TimeUntilDestroy -= DeltaTime;
 	if (TimeUntilDestroy <= 0)
 	{
-		if (AMultiplayerGameMode* GameMode = Cast<AMultiplayerGameMode>(GetWorld()->GetAuthGameMode()))
+		if (UAGPGameInstance* AGPGameInstance = Cast<UAGPGameInstance>(GetWorld()->GetGameInstance()))
 		{
 			// Tell the GameMode to respawn this enemy.
-			GameMode->RespawnEnemy(Owner->GetController());
+			AGPGameInstance->RespawnEnemy(Owner->GetController());
 		}
 	}
 }

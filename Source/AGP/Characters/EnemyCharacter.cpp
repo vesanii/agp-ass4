@@ -10,9 +10,7 @@ AEnemyCharacter::AEnemyCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>("Pawn Sensing Component");
-	InstantiateStates();
 }
 
 // Called when the game starts or when spawned
@@ -22,7 +20,8 @@ void AEnemyCharacter::BeginPlay()
 
 	// DO NOTHING IF NOT ON THE SERVER
 	if (GetLocalRole() != ROLE_Authority) return;
-	
+	InstantiateStates();
+
 	PathfindingSubsystem = GetWorld()->GetSubsystem<UPathfindingSubsystem>();
 	if (!PathfindingSubsystem)
 	{
@@ -211,14 +210,14 @@ void AEnemyCharacter::FindHealthPickup()
 
 void AEnemyCharacter::InstantiateStates()
 {
-	PatrolState = CreateDefaultSubobject<UPatrolState>("PatrolState");
-	EngageState = CreateDefaultSubobject<UEngageState>("EngageState");
-	EvadeState = CreateDefaultSubobject<UEvadeState>("EvadeState");
-	UnarmedState = CreateDefaultSubobject<UUnarmedState>("UnarmedState");
-	DeadState = CreateDefaultSubobject<UDeadState>("DeadState");
-	InvestigateState = CreateDefaultSubobject<UInvestigateState>("InvestigateState");
-	InjuredState = CreateDefaultSubobject<UInjuredState>("InjuredState");
-	StunnedState = CreateDefaultSubobject<UStunnedState>("StunnedState");
+	PatrolState = NewObject<UPatrolState>(this);
+	EngageState = NewObject<UEngageState>(this);
+	EvadeState = NewObject<UEvadeState>(this);
+	UnarmedState = NewObject<UUnarmedState>(this);
+	DeadState = NewObject<UDeadState>(this);
+	InvestigateState = NewObject<UInvestigateState>(this);
+	InjuredState = NewObject<UInjuredState>(this);
+	StunnedState = NewObject<UStunnedState>(this);
 }
 
 FString AEnemyCharacter::GetStateName() const

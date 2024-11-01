@@ -17,15 +17,9 @@ class AGP_API AMultiplayerGameMode : public AGameMode
 	GENERATED_BODY()
 
 public:
-
 	void RespawnPlayer(AController* Controller);
-	void RespawnEnemy(AController* Controller);
 
 protected:
-
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<APlayerCharacter> PlayerCharacterClass;
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AEnemyCharacter> EnemyCharacterClass;
-	
+	TSubclassOf<APlayerCharacter> PlayerCharacterClass;	
 };

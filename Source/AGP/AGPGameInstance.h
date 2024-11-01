@@ -30,6 +30,8 @@ protected:
 	UNiagaraSystem* BloodSpatterEffect;
 	UPROPERTY(EditDefaultsOnly)
 	USoundCue* GunshotSoundCue;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AEnemyCharacter> EnemyCharacterClass;
 public:
 	UClass* GetWeaponPickupClass() const;
 	UClass* GetHealthPickupClass() const;
@@ -37,4 +39,5 @@ public:
 	void SpawnBloodSpatterParticles(const FVector& SpawnLocation);
 	void PlayGunshotSoundAtLocation(const FVector& Location);
 	void PlayGunshotSound2D();
+	void RespawnEnemy(AController* Controller);
 };
