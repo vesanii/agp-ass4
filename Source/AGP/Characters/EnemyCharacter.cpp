@@ -165,6 +165,8 @@ void AEnemyCharacter::Tick(float DeltaTime)
 
     DrawDebugString(GetWorld(), GetActorLocation() + FVector(0, 0, 100), DebugString, nullptr, FColor::White, 0.0f, true);
 
+	bIsInCover = (ActiveState == HideState);
+	
     UpdateSight();
     if (ActiveState && this)
     {
@@ -221,6 +223,7 @@ void AEnemyCharacter::InstantiateStates()
 	InvestigateState = NewObject<UInvestigateState>(this);
 	InjuredState = NewObject<UInjuredState>(this);
 	StunnedState = NewObject<UStunnedState>(this);
+	HideState = NewObject<UHideState>(this);
 }
 
 FString AEnemyCharacter::GetStateName() const
@@ -233,6 +236,14 @@ FString AEnemyCharacter::GetStateName() const
     if (ActiveState == InvestigateState) return "Investigate";
     if (ActiveState == InjuredState) return "Injured";
     if (ActiveState == StunnedState) return "Stunned";
+	if (ActiveState == HideState) return "Hiding";
     return "Unknown";
 }
 
+bool AEnemyCharacter::IsEnemyInCover() const
+{
+    if (ActiveState == HideState) {
+        return bIsInCover;
+    }
+    return false; 
+}

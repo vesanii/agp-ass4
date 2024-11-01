@@ -1,55 +1,53 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "HideState.h"
 #include "AGP/Characters/EnemyCharacter.h"
+#include "AGP/Characters/HealthComponent.h"
 
 void UHideState::Entry(AEnemyCharacter* Owner)
 {
-	UE_LOG(LogTemp, Warning, TEXT("hide state"));
-	if (Owner->CurrentPath.IsEmpty())
-	{
-		//get path to hiding or cover spot w.i.p
-		//Owner->GetPathTo(targetlocation);
-	}
+    UE_LOG(LogTemp, Warning, TEXT("State: Hide"));
+    if (Owner->CurrentPath.IsEmpty())
+    {
+        // already in cover
+    }
+    
+    PreviousHealth = Owner->HealthComponent->GetCurrentHealth();
 }
 
 void UHideState::Update(AEnemyCharacter* Owner, float DeltaTime)
 {
-	//die
-	if (Owner->HasDied())
-	{
-		Owner->ChangeState(Owner->DeadState);
-		return;
-	}
-	//if character receives more than 15 damage at one time at full health, they are stunned
-	if (Owner->IsStunned())
-	{
-		Owner->ChangeState(Owner->StunnedState);
-		return;
-	}
+    // death or stun first
+    if (Owner->HasDied())
+    {
+        Owner->ChangeState(Owner->DeadState);
+        return;
+    }
+    if (Owner->IsStunned())
+    {
+        Owner->ChangeState(Owner->StunnedState);
+        return;
+    }
 
-	//..
-	//could have action to apply healing if manual healing implemented in future
+    // check for damage 
+    float CurrentHealth = Owner->HealthComponent->GetCurrentHealth();
+    if (CurrentHealth < PreviousHealth)
+    {
+        Owner->ChangeState(Owner->EvadeState);
+        return;
+    }
+    PreviousHealth = CurrentHealth;  
 
-	//if player invades cover space
-	if (Owner->SensedCharacter.IsValid())
-	{
-		//if health below threshold, evade
-		if (Owner->GetHealth() < 0.4f)
-		{
-			Owner->ChangeState(Owner->EvadeState);
-			return;
-		}
-		else //engage player
-		{
-			Owner->ChangeState(Owner->EngageState);
-			return;
-		}
-	}
+    // regen 
+    Owner->HealthComponent->ApplyHealing(DeltaTime * PassiveRegenRate);
+
+    // transition through heal
+    if (Owner->GetHealth() >= 0.75f)
+    {
+        Owner->ChangeState(Owner->PatrolState);
+        return;
+    }
 }
 
 void UHideState::Exit(AEnemyCharacter* Owner)
 {
-	Owner->EmptyCurrentPath();
+    Owner->EmptyCurrentPath();
 }

@@ -55,6 +55,8 @@ public:
 	 * @param MapHeight The grid height of the landscape.
 	 */
 	void PlaceProceduralNodes(const TArray<FVector>& LandscapeVertexData, int32 MapWidth, int32 MapHeight, bool bShouldHaveDiagonalConnections = true);
+	ANavigationNode* FindNearestCoverNode(const FVector& TargetLocation);
+
 
 protected:
 	

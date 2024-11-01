@@ -151,4 +151,16 @@ private:
 
 	//helper function to instantiate state objects at begin play
 	void InstantiateStates();
+	
+	UPROPERTY()
+	ANavigationNode* TargetCoverNode;
+
+public:
+	void SetTargetCoverNode(ANavigationNode* CoverNode) { TargetCoverNode = CoverNode; }
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
+    bool bIsInCover = false;
+    
+    UFUNCTION(BlueprintCallable, Category = "State")
+    bool IsEnemyInCover() const;
 };

@@ -18,4 +18,6 @@ public:
 	void Entry(AEnemyCharacter* Owner) override;
 	void Update(AEnemyCharacter* Owner, float DeltaTime) override;
 	void Exit(AEnemyCharacter* Owner) override;
+	float PassiveRegenRate = 5.0f;
+	float PreviousHealth = 0.0f;
 };
