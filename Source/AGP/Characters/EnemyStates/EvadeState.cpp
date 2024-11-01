@@ -27,13 +27,9 @@ void UEvadeState::Update(AEnemyCharacter* Owner, float DeltaTime)
 	//if the player is lost and health is still below threshold
 	if (!Owner->SensedCharacter.IsValid() && Owner->GetHealth() < 0.4)
 	{
+			
 		//return to patrol if no health pick up is found
 		if (!Owner->SensedHealUp.IsValid())
-		{
-			Owner->ChangeState(Owner->PatrolState);
-			return;
-		}
-		else //go to health pick up if further from player by 1000cm
 		{
 			if (DistanceFromPlayer >= 1000.0f)
 			{
