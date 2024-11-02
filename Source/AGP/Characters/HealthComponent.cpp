@@ -5,6 +5,7 @@
 
 #include "HealthComponent.h"
 
+#include "BaseCharacter.h"
 #include "PlayerCharacter.h"
 #include "Net/UnrealNetwork.h"
 
@@ -38,7 +39,7 @@ float UHealthComponent::GetCurrentHealthPercentage() const
 	return CurrentHealth / MaxHealth;
 }
 
-void UHealthComponent::ApplyDamage(float DamageAmount)
+void UHealthComponent::ApplyDamage(float DamageAmount, ABaseCharacter* DamageSource)
 {
 	if (bIsDead) return;
 	CurrentHealth -= DamageAmount;
@@ -48,6 +49,7 @@ void UHealthComponent::ApplyDamage(float DamageAmount)
 		CurrentHealth = 0.0f;
 	}
 	UpdateHealthBar();
+	LastDamageSource = DamageSource;
 }
 
 void UHealthComponent::ApplyHealing(float HealingAmount)
@@ -89,6 +91,16 @@ void UHealthComponent::OnDeath()
 	// checking that we are only handling this logic on the server.
 	if (GetOwnerRole() != ROLE_Authority) return;
 	
+	if (APlayerCharacter* AttackingPlayer = Cast<APlayerCharacter>(LastDamageSource))
+	{
+		AttackingPlayer->UpdatePlayerScores(true);
+	}
+	if (APlayerCharacter* Player = Cast<APlayerCharacter>(GetOwner()))
+	{
+		Player->UpdatePlayerScores(false);
+		Player->OnPlayerDeath();
+	}
+
 	if (ABaseCharacter* Character = Cast<ABaseCharacter>(GetOwner()))
 	{
 		Character->OnDeath();
@@ -100,6 +112,14 @@ void UHealthComponent::UpdateHealthBar()
 	if (APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetOwner()))
 	{
 		PlayerCharacter->UpdateHealthBar(GetCurrentHealthPercentage());
+	}
+}
+
+void UHealthComponent::UpdateScoreBoard()
+{
+	if (APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetOwner()))
+	{
+		PlayerCharacter->UpdateScoreBoard();
 	}
 }
 

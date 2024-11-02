@@ -8,6 +8,8 @@
 #include "HealthComponent.h"
 #include "PlayerCharacterHUD.h"
 #include "Kismet/KismetMathLibrary.h"
+#include <Net/UnrealNetwork.h>
+#include <AGP/MultiplayerGameMode.h>
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -32,6 +34,14 @@ void APlayerCharacter::UpdateAmmoUI(int32 RoundsRemaining, int32 MagazineSize)
 	}
 }
 
+void APlayerCharacter::UpdateScoreBoard()
+{
+	if (PlayerHUD && IsLocallyControlled())
+	{
+		PlayerHUD->SetLeaderBoardText(PlayerScores.HighestKills, PlayerScores.CurrentKills, PlayerScores.Deaths);
+	}
+}
+
 void APlayerCharacter::DrawUI()
 {
 	if (IsLocallyControlled() && PlayerHUDClass)
@@ -42,10 +52,40 @@ void APlayerCharacter::DrawUI()
 			if (PlayerHUD)
 			{
 				PlayerHUD->AddToPlayerScreen();
+				UpdateScoreBoard();
 			}
 		}
 	}
 	UpdateHealthBar(1.0f);
+}
+
+void APlayerCharacter::UpdatePlayerScores(bool bUpdateKills)
+{
+	if (IsLocallyControlled())
+	{
+		UpdatePlayerScoresImplementation(bUpdateKills);
+	}
+	else
+	{
+		ServerUpdatePlayerScores(bUpdateKills);
+	}
+}
+
+FScores APlayerCharacter::GetPlayerScores()
+{
+	return PlayerScores;
+}
+
+void APlayerCharacter::SetPlayerScores(const FScores& Scores)
+{
+	PlayerScores = Scores;
+	PlayerScores.CurrentKills = 0;
+}
+
+void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(APlayerCharacter, PlayerScores);
 }
 
 // Called when the game starts or when spawned
@@ -60,9 +100,8 @@ void APlayerCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(InputMappingContext, 0);
 		}
+		DrawUI();
 	}
-
-	DrawUI();
 }
 
 void APlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -123,4 +162,26 @@ void APlayerCharacter::FireWeapon(const FInputActionValue& Value)
 		Fire(BulletStartPosition->GetComponentLocation() + 10000.0f * CameraForward);
 	}
 }
+
+void APlayerCharacter::UpdatePlayerScoresImplementation(bool bUpdateKills)
+{
+	if (bUpdateKills)
+	{
+		PlayerScores.CurrentKills += 1;
+		if (PlayerScores.CurrentKills > PlayerScores.HighestKills)
+		{
+			PlayerScores.HighestKills = PlayerScores.CurrentKills;
+		}
+	}
+	else
+	{
+		PlayerScores.Deaths += 1;
+	}
+}
+
+void APlayerCharacter::ServerUpdatePlayerScores_Implementation(bool bUpdateKills)
+{
+	UpdatePlayerScoresImplementation(bUpdateKills);
+}
+
 

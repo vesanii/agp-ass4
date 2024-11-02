@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+class ABaseCharacter;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class AGP_API UHealthComponent : public UActorComponent
@@ -20,7 +21,7 @@ public:
 	bool IsStunned();
 	float GetCurrentHealth() const;
 	float GetCurrentHealthPercentage() const;
-	void ApplyDamage(float DamageAmount);
+	void ApplyDamage(float DamageAmount, ABaseCharacter* DamageSource);
 	void ApplyHealing(float HealingAmount);
 	void ResetHealth();
 	void ResetStun();
@@ -37,10 +38,13 @@ protected:
 	float CurrentHealth;
 	bool bIsDead = false;
 	bool bIsStunned = false;
+	ABaseCharacter* LastDamageSource = nullptr;
 
 	void OnDeath();
 	UFUNCTION()
 	void UpdateHealthBar();
+	UFUNCTION()
+	void UpdateScoreBoard();
 
 	
 

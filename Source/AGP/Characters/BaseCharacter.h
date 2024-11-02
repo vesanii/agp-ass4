@@ -25,7 +25,7 @@ public:
 	void EquipWeapon(bool bEquipWeapon, const FWeaponStats& WeaponStats = FWeaponStats());
 	UFUNCTION(BlueprintImplementableEvent)
 	void EquipWeaponGraphical(bool bEquipWeapon);
-
+	UFUNCTION(BlueprintCallable)
 	bool HasDied();
 	void HealCharacter(float HealingAmount);
 

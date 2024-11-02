@@ -12,6 +12,20 @@ class UPlayerCharacterHUD;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+
+USTRUCT(BlueprintType)
+struct FScores
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	int32 HighestKills = 0;
+	UPROPERTY()
+	int32 CurrentKills = 0;
+	UPROPERTY()
+	int32 Deaths = 0;
+};
+
 UCLASS()
 class AGP_API APlayerCharacter : public ABaseCharacter
 {
@@ -23,10 +37,23 @@ public:
 
 	void UpdateHealthBar(float HealthPercent);
 	void UpdateAmmoUI(int32 RoundsRemaining, int32 MagazineSize);
-
+	UFUNCTION()
+	void UpdateScoreBoard();
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnPlayerDeath();
 	UFUNCTION(BlueprintImplementableEvent)
 	void ChooseCharacterMesh();
 	void DrawUI();
+	/*
+	Method to update player scores. If bUpdateKills is true, then PlayerScores.Kills
+	is increased by 1. Else PlayerScores.Deaths is increased by 1.
+	Also updates PlayerScores.HighestKills to match the current highest kill count.
+	*/
+	void UpdatePlayerScores(bool bUpdateKills);
+	FScores GetPlayerScores();
+	void SetPlayerScores(const FScores& Scores);
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,7 +80,8 @@ protected:
 	TSubclassOf<UPlayerCharacterHUD> PlayerHUDClass;
 	UPROPERTY()
 	UPlayerCharacterHUD* PlayerHUD;
-	
+	UPROPERTY(ReplicatedUsing = UpdateScoreBoard);
+	FScores PlayerScores;
 	
 
 public:	
@@ -69,4 +97,7 @@ private:
 	void Look(const FInputActionValue& Value);
 	void FireWeapon(const FInputActionValue& Value);
 
+	void UpdatePlayerScoresImplementation(bool bUpdateKills);
+	UFUNCTION(Server, Reliable)
+	void ServerUpdatePlayerScores(bool bUpdateKills);
 };

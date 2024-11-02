@@ -98,7 +98,10 @@ ABaseCharacter*  UWeaponComponent::FireImplementation(const FVector& BulletStart
 		{
 			if (UHealthComponent* HitCharacterHealth = HitCharacter->GetComponentByClass<UHealthComponent>())
 			{
-				HitCharacterHealth->ApplyDamage(WeaponStats.BaseDamage);
+				if (ABaseCharacter* Character = Cast<ABaseCharacter>(GetOwner()))
+				{
+					HitCharacterHealth->ApplyDamage(WeaponStats.BaseDamage, Character);
+				}
 			}
 		}
 	}
@@ -220,5 +223,3 @@ bool UWeaponComponent::IsReloading() const
 {
     return bIsReloading;
 }
-
-

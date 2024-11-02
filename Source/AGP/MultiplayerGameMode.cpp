@@ -13,6 +13,7 @@ void AMultiplayerGameMode::RespawnPlayer(AController* Controller)
 	{
 		if (APlayerCharacter* CurrentlyPossessedCharacter = Cast<APlayerCharacter>(Controller->GetPawn()))
 		{
+			FScores PlayerScores = CurrentlyPossessedCharacter->GetPlayerScores();
 			Controller->UnPossess();
 			CurrentlyPossessedCharacter->Destroy();
 			for (TActorIterator<APlayerStart> StartSpot(GetWorld()); StartSpot; ++StartSpot)
@@ -24,6 +25,7 @@ void AMultiplayerGameMode::RespawnPlayer(AController* Controller)
 			}
 			if (APlayerCharacter* NewPossessedCharacter = Cast<APlayerCharacter>(Controller->GetPawn()))
 			{
+				NewPossessedCharacter->SetPlayerScores(PlayerScores);
 				NewPossessedCharacter->ChooseCharacterMesh();
 				NewPossessedCharacter->DrawUI();
 			}
