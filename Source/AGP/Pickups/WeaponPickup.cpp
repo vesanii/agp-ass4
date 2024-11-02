@@ -62,7 +62,7 @@ void AWeaponPickup::GenerateWeaponPickup()
 	WeaponStats.FireRate = GoodStats[1] ? FMath::RandRange(0.05f, 0.2f) : FMath::RandRange(0.2f, 1.0f);
 	WeaponStats.BaseDamage = GoodStats[2] ? FMath::RandRange(15.0f, 30.0f) : FMath::RandRange(5.0f, 15.0f);
 	WeaponStats.MagazineSize = GoodStats[3] ? FMath::RandRange(20, 100) : FMath::RandRange(1, 19);
-	WeaponStats.ReloadTime = GoodStats[4] ? FMath::RandRange(0.1f, 1.0f) : FMath::RandRange(1.0f, 4.0f);
+	WeaponStats.ReloadTime = GoodStats[4] ? FMath::RandRange(2.25f, 2.25f) : FMath::RandRange(2.25f, 2.25f);
 }
 
 void AWeaponPickup::DestroyPickup()

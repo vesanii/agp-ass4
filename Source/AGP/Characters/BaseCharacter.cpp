@@ -152,3 +152,8 @@ void ABaseCharacter::MulticastEquipWeapon_Implementation(bool bEquipWeapon, cons
 	EquipWeaponGraphical(bEquipWeapon);
 }
 
+bool ABaseCharacter::IsReloading() const
+{
+    return WeaponComponent ? WeaponComponent->IsReloading() : false;
+}
+

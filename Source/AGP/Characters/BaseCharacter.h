@@ -89,4 +89,8 @@ private:
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastEquipWeapon(bool bEquipWeapon, const FWeaponStats& WeaponStats = FWeaponStats());
 
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	bool IsReloading() const;
+
+
 };
