@@ -104,6 +104,4 @@ private:
 public:
     int32 GetRoundsRemainingInMagazine() const;
     bool IsReloading() const;
-
-
 };

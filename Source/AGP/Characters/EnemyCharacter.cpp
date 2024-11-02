@@ -267,6 +267,12 @@ FString AEnemyCharacter::GetStateName() const
     return "Unknown";
 }
 
+void AEnemyCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AEnemyCharacter, bIsInCover);
+}
+
 bool AEnemyCharacter::IsEnemyInCover() const
 {
     if (ActiveState == HideState) {
@@ -274,9 +280,3 @@ bool AEnemyCharacter::IsEnemyInCover() const
     }
     return false; 
 }
-
-bool AEnemyCharacter::IsEnemyReloading() const
-{
-    return WeaponComponent ? WeaponComponent->IsReloading() : false;
-}
-

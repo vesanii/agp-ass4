@@ -36,6 +36,7 @@ protected:
 	float MaxHealth = 100.0f;
 	UPROPERTY(ReplicatedUsing=UpdateHealthBar)
 	float CurrentHealth;
+	UPROPERTY(Replicated)
 	bool bIsDead = false;
 	bool bIsStunned = false;
 	ABaseCharacter* LastDamageSource = nullptr;

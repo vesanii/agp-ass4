@@ -91,6 +91,4 @@ private:
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	bool IsReloading() const;
-
-
 };

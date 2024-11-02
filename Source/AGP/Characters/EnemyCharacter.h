@@ -109,7 +109,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	FString GetStateName() const;
-
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 private:
 
@@ -158,12 +158,9 @@ private:
 public:
 	void SetTargetCoverNode(ANavigationNode* CoverNode) { TargetCoverNode = CoverNode; }
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State", Replicated)
     bool bIsInCover = false;
     
     UFUNCTION(BlueprintCallable, Category = "State")
     bool IsEnemyInCover() const;
-
-	UFUNCTION(BlueprintCallable, Category = "State")
-    bool IsEnemyReloading() const;
 };
