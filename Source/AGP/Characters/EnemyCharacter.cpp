@@ -4,6 +4,7 @@
 #include "EnemyCharacter.h"
 #include "EngineUtils.h"
 #include <Net/UnrealNetwork.h>
+#include "GameFramework/CharacterMovementComponent.h" 
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -161,23 +162,42 @@ void AEnemyCharacter::ChangeState(UBaseState* NewState)
 // Called every frame
 void AEnemyCharacter::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
-	// DO NOTHING UNLESS IT IS ON THE SERVER
     if (GetLocalRole() != ROLE_Authority) return;
 
-    FString DebugString = FString::Printf(TEXT("Health: %.1f%%\nState: %s"),
-        HealthComponent ? HealthComponent->GetCurrentHealthPercentage() * 100.0f : 0.0f,
-        *GetStateName());
+    FString StateName = GetStateName();
+    float HealthPercent = HealthComponent ? HealthComponent->GetCurrentHealthPercentage() * 100.0f : 0.0f;
+    
+    int32 AmmoCount = WeaponComponent ? WeaponComponent->GetRoundsRemainingInMagazine() : 0;
+    bool bIsReloading = WeaponComponent ? WeaponComponent->IsReloading() : false;
+
+    FString DebugString = FString::Printf(
+        TEXT("Health: %.1f%%\nState: %s\nAmmo: %d\nReloading: %s"),
+        HealthPercent,
+        *StateName,
+        AmmoCount,
+        bIsReloading ? TEXT("Yes") : TEXT("No")
+    );
 
     DrawDebugString(GetWorld(), GetActorLocation() + FVector(0, 0, 100), DebugString, nullptr, FColor::White, 0.0f, true);
 
-	bIsInCover = (ActiveState == HideState);
-	
+    bIsInCover = (ActiveState == HideState);
     UpdateSight();
-    if (ActiveState && this)
+
+    // Check if reloading; if so, stop movement
+    if (bIsReloading)
     {
-        ActiveState->Update(this, DeltaTime);
+        // Clear any existing movement input to force the character to stand still
+        GetCharacterMovement()->StopMovementImmediately();
+    }
+    else
+    {
+        // Continue executing the active state update when not reloading
+        if (ActiveState && this)
+        {
+            ActiveState->Update(this, DeltaTime);
+        }
     }
 }
 
@@ -254,3 +274,9 @@ bool AEnemyCharacter::IsEnemyInCover() const
     }
     return false; 
 }
+
+bool AEnemyCharacter::IsEnemyReloading() const
+{
+    return WeaponComponent ? WeaponComponent->IsReloading() : false;
+}
+

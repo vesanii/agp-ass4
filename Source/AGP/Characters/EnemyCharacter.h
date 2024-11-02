@@ -163,4 +163,7 @@ public:
     
     UFUNCTION(BlueprintCallable, Category = "State")
     bool IsEnemyInCover() const;
+
+	UFUNCTION(BlueprintCallable, Category = "State")
+    bool IsEnemyReloading() const;
 };

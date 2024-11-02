@@ -211,4 +211,14 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		}
 	}
 }
+int32 UWeaponComponent::GetRoundsRemainingInMagazine() const
+{
+    return RoundsRemainingInMagazine;
+}
+
+bool UWeaponComponent::IsReloading() const
+{
+    return bIsReloading;
+}
+
 

@@ -100,4 +100,10 @@ private:
 	void ReloadImplementation();
 	UFUNCTION(Server, Reliable)
 	void ServerReload();
+
+public:
+    int32 GetRoundsRemainingInMagazine() const;
+    bool IsReloading() const;
+
+
 };
