@@ -57,6 +57,7 @@ public:
 	/**
 	 * Starts the process of reloading.
 	 */
+	UFUNCTION()
 	void Reload();
 	void SetWeaponStats(const FWeaponStats& WeaponInfo);
 
@@ -73,6 +74,7 @@ protected:
 	UPROPERTY(ReplicatedUsing=UpdateAmmoUI)
 	int32 RoundsRemainingInMagazine;
 	float TimeSinceLastShot;
+	UPROPERTY(ReplicatedUsing = Reload)
 	bool bIsReloading = false;
 
 	UFUNCTION()

@@ -27,12 +27,17 @@ void UPickupManagerSubsystem::Tick(float DeltaTime)
 		PopulateSpawnLocations();
 	}
 
-	TimeSinceLastSpawn += DeltaTime;
-	if (TimeSinceLastSpawn >= PickupSpawnRate)
+	TimeSinceLastWeaponSpawn += DeltaTime;
+	if (TimeSinceLastWeaponSpawn >= WeaponPickupSpawnRate)
 	{
 		SpawnWeaponPickup();
+		TimeSinceLastWeaponSpawn = 0.0f;
+	}
+	TimeSinceLastHealthSpawn += DeltaTime;
+	if (TimeSinceLastHealthSpawn >= HealthPickupSpawnRate)
+	{
 		SpawnHealthPickup();
-		TimeSinceLastSpawn = 0.0f;
+		TimeSinceLastHealthSpawn = 0.0f;
 	}
 }
 
