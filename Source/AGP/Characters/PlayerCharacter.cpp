@@ -38,7 +38,7 @@ void APlayerCharacter::UpdateScoreBoard()
 {
 	if (PlayerHUD && IsLocallyControlled())
 	{
-		PlayerHUD->SetLeaderBoardText(PlayerScores.HighestKills, PlayerScores.CurrentKills, PlayerScores.Deaths);
+		PlayerHUD->SetScoreboardText(PlayerScores.HighestKills, PlayerScores.CurrentKills, PlayerScores.Deaths);
 	}
 }
 
@@ -177,6 +177,7 @@ void APlayerCharacter::UpdatePlayerScoresImplementation(bool bUpdateKills)
 	{
 		PlayerScores.Deaths += 1;
 	}
+	UpdateScoreBoard();
 }
 
 void APlayerCharacter::ServerUpdatePlayerScores_Implementation(bool bUpdateKills)

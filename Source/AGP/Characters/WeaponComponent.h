@@ -73,10 +73,13 @@ protected:
 	UPROPERTY(ReplicatedUsing=UpdateAmmoUI)
 	int32 RoundsRemainingInMagazine;
 	float TimeSinceLastShot;
+	UPROPERTY(ReplicatedUsing = UpdateCharacterIsReloading)
 	bool bIsReloading = false;
 
 	UFUNCTION()
 	void UpdateAmmoUI();
+	UFUNCTION()
+	void UpdateCharacterIsReloading();
 
 public:	
 	// Called every frame

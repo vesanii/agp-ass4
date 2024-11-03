@@ -22,23 +22,7 @@ void UPlayerCharacterHUD::SetAmmoText(int32 RoundsRemaining, int32 MagazineSize)
 	}
 }
 
-void UPlayerCharacterHUD::SetCurrentKillsText(int32 KillCount)
-{
-	if (CurrentKills)
-	{
-		CurrentKills->SetText(FText::FromString(FString::FromInt(KillCount)));
-	}
-}
-
-void UPlayerCharacterHUD::SetHighestKillText(int32 HighestKillCount)
-{
-	if (HighestKills)
-	{
-		HighestKills->SetText(FText::FromString(FString::FromInt(HighestKillCount)));
-	}
-}
-
-void UPlayerCharacterHUD::SetLeaderBoardText(int32 HighestKillCount, int32 KillCount, int32 DeathCount)
+void UPlayerCharacterHUD::SetScoreboardText(int32 HighestKillCount, int32 KillCount, int32 DeathCount)
 {
 	if (HighestKills)
 	{

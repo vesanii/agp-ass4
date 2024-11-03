@@ -43,6 +43,7 @@ void UWeaponComponent::ReloadImplementation()
 	
 	UE_LOG(LogTemp, Display, TEXT("Start Reload"))
 	bIsReloading = true;
+	UpdateCharacterIsReloading();
 }
 
 void UWeaponComponent::ServerReload_Implementation()
@@ -56,6 +57,7 @@ void UWeaponComponent::CompleteReload()
 	UE_LOG(LogTemp, Display, TEXT("Reload Complete"))
 	RoundsRemainingInMagazine = WeaponStats.MagazineSize;
 	UpdateAmmoUI();
+	UpdateCharacterIsReloading();
 }
 
 ABaseCharacter*  UWeaponComponent::FireImplementation(const FVector& BulletStart, const FVector& FireAtLocation,
@@ -177,6 +179,7 @@ void UWeaponComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UWeaponComponent, RoundsRemainingInMagazine)
 	DOREPLIFETIME(UWeaponComponent, WeaponStats);
+	DOREPLIFETIME(UWeaponComponent, bIsReloading);
 }
 
 // Called when the game starts
@@ -193,6 +196,14 @@ void UWeaponComponent::UpdateAmmoUI()
 	if (APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetOwner()))
 	{
 		PlayerCharacter->UpdateAmmoUI(RoundsRemainingInMagazine, WeaponStats.MagazineSize);
+	}
+}
+
+void UWeaponComponent::UpdateCharacterIsReloading()
+{
+	if (ABaseCharacter* Owner = Cast<ABaseCharacter>(GetOwner()))
+	{
+		Owner->UpdateIsReloading(bIsReloading);
 	}
 }
 

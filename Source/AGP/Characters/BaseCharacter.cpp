@@ -33,6 +33,11 @@ void ABaseCharacter::Fire(const FVector& FireAtLocation)
 	}
 }
 
+void ABaseCharacter::UpdateIsReloading(bool bReload)
+{
+	bIsReloading = bReload;
+}
+
 void ABaseCharacter::Reload()
 {
 	if (HasWeapon())

@@ -16,9 +16,7 @@ class AGP_API UPlayerCharacterHUD : public UUserWidget
 public:
 	void SetHealthBar(float HealthPercent);
 	void SetAmmoText(int32 RoundsRemaining, int32 MagazineSize);
-	void SetCurrentKillsText(int32 KillCount);
-	void SetHighestKillText(int32 HighestKillCount);
-	void SetLeaderBoardText(int32 HighestKillCount, int32 KillCount, int32 DeathCount);
+	void SetScoreboardText(int32 HighestKillCount, int32 KillCount, int32 DeathCount);
 
 protected:
 

@@ -170,14 +170,13 @@ void AEnemyCharacter::Tick(float DeltaTime)
     float HealthPercent = HealthComponent ? HealthComponent->GetCurrentHealthPercentage() * 100.0f : 0.0f;
     
     int32 AmmoCount = WeaponComponent ? WeaponComponent->GetRoundsRemainingInMagazine() : 0;
-    bool bIsReloading = WeaponComponent ? WeaponComponent->IsReloading() : false;
 
     FString DebugString = FString::Printf(
         TEXT("Health: %.1f%%\nState: %s\nAmmo: %d\nReloading: %s"),
         HealthPercent,
         *StateName,
         AmmoCount,
-        bIsReloading ? TEXT("Yes") : TEXT("No")
+        IsReloading() ? TEXT("Yes") : TEXT("No")
     );
 
     DrawDebugString(GetWorld(), GetActorLocation() + FVector(0, 0, 100), DebugString, nullptr, FColor::White, 0.0f, true);
@@ -186,7 +185,7 @@ void AEnemyCharacter::Tick(float DeltaTime)
     UpdateSight();
 
     // Check if reloading; if so, stop movement
-    if (bIsReloading)
+    if (IsReloading())
     {
         // Clear any existing movement input to force the character to stand still
         GetCharacterMovement()->StopMovementImmediately();
