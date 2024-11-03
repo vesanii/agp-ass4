@@ -44,13 +44,6 @@ void UEvadeState::Update(AEnemyCharacter* Owner, float DeltaTime)
 		Owner->ChangeState(Owner->EngageState);
 		return;
 	}
-	//if space is available, take cover 
-	//w.i.p
-	 //if (sensedcover && Owner->SensedCharacter && !(method to check if the sensedcover is within player line of sight))
-	 //{
-		//Owner->ChangeState(Owner->HideState);
-		//return;
-	 //}
 	
 	//renew path if it runs out before state change
 	if (Owner->CurrentPath.IsEmpty() && Owner->SensedCharacter.IsValid())
