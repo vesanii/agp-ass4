@@ -28,7 +28,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool HasDied();
 	void HealCharacter(float HealingAmount);
-	void UpdateIsReloading(bool bReload);
 
 	/**
 	 * Will reload the weapon if the character has a weapon equipped.
@@ -71,18 +70,12 @@ protected:
 	UPROPERTY(Replicated)
 	UWeaponComponent* WeaponComponent = nullptr;
 
-	UPROPERTY()
-	bool bIsReloading = false;
-
 	/**
 	 * Will fire at a specific location and handles the impact of the shot such as determining what it hit and
 	 * deducting health if it hit a particular type of actor.
 	 * @param FireAtLocation The location that you want to fire at.
 	 */
 	void Fire(const FVector& FireAtLocation);
-
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	bool IsReloading() const;
 
 public:	
 	// Called every frame
@@ -95,4 +88,7 @@ private:
 	void EquipWeaponImplementation(bool bEquipWeapon, const FWeaponStats& WeaponStats = FWeaponStats());
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastEquipWeapon(bool bEquipWeapon, const FWeaponStats& WeaponStats = FWeaponStats());
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	bool IsReloading() const;
 };

@@ -107,14 +107,6 @@ void ABaseCharacter::HealCharacter(float HealingAmount)
 	HealthComponent->ApplyHealing(HealingAmount);
 }
 
-void ABaseCharacter::UpdateIsReloading(bool bReload)
-{
-	if (WeaponComponent)
-	{
-		bIsReloading = bReload;
-	}
-}
-
 // Called to bind functionality to input
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

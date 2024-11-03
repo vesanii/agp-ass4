@@ -39,7 +39,7 @@ void ANavigationNode::Tick(float DeltaTime)
 		SphereColor = FColor::Red;
 	}
 
-	//DrawDebugSphere(GetWorld(), GetActorLocation(), 50.0f, 4, SphereColor, false, -1, 0, 5.0f);
+	DrawDebugSphere(GetWorld(), GetActorLocation(), 50.0f, 4, SphereColor, false, -1, 0, 5.0f);
 
 	for (const ANavigationNode* ConnectedNode : ConnectedNodes)
 	{
@@ -50,7 +50,8 @@ void ANavigationNode::Tick(float DeltaTime)
 			{
 				LineColor = FColor::Green;
 			}
-			//DrawDebugLine(GetWorld(), GetActorLocation(), ConnectedNode->GetActorLocation(), LineColor, false, -1, 0, 5.0f);
+			DrawDebugLine(GetWorld(), GetActorLocation(), ConnectedNode->GetActorLocation(),
+				LineColor, false, -1, 0, 5.0f);
 		}
 	}
 }

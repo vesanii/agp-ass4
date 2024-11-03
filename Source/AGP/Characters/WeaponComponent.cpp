@@ -43,10 +43,6 @@ void UWeaponComponent::ReloadImplementation()
 	
 	UE_LOG(LogTemp, Display, TEXT("Start Reload"))
 	bIsReloading = true;
-	if (ABaseCharacter* Owner = Cast<ABaseCharacter>(GetOwner()))
-	{
-		Owner->UpdateIsReloading(bIsReloading);
-	}
 }
 
 void UWeaponComponent::ServerReload_Implementation()
@@ -60,10 +56,6 @@ void UWeaponComponent::CompleteReload()
 	UE_LOG(LogTemp, Display, TEXT("Reload Complete"))
 	RoundsRemainingInMagazine = WeaponStats.MagazineSize;
 	UpdateAmmoUI();
-	if (ABaseCharacter* Owner = Cast<ABaseCharacter>(GetOwner()))
-	{
-		Owner->UpdateIsReloading(bIsReloading);
-	}
 }
 
 ABaseCharacter*  UWeaponComponent::FireImplementation(const FVector& BulletStart, const FVector& FireAtLocation,
@@ -185,7 +177,6 @@ void UWeaponComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UWeaponComponent, RoundsRemainingInMagazine)
 	DOREPLIFETIME(UWeaponComponent, WeaponStats);
-	DOREPLIFETIME(UWeaponComponent, bIsReloading);
 }
 
 // Called when the game starts
