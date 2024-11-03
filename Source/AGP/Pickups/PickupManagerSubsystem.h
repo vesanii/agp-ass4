@@ -31,8 +31,10 @@ protected:
 	 */
 	TArray<TPair<TWeakObjectPtr<AWeaponPickup>, FVector>> PossibleWeaponSpawnLocations;
 	TArray<TPair<TWeakObjectPtr<AHealthPickup>, FVector>> PossibleHealthSpawnLocations;
-	float PickupSpawnRate = 5.0f;
-	float TimeSinceLastSpawn = 0.0f;
+	float WeaponPickupSpawnRate = 5.0f;
+	float TimeSinceLastWeaponSpawn = 0.0f;
+	float HealthPickupSpawnRate = 8.0f;
+	float TimeSinceLastHealthSpawn = 0.0f;
 	
 	virtual void Tick(float DeltaTime) override;
 
