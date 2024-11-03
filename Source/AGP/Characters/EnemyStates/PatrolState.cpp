@@ -24,8 +24,6 @@ void UPatrolState::Update(AEnemyCharacter* Owner, float DeltaTime)
 		Owner->ChangeState(Owner->DeadState);
 		return;
 	}
-
-	//the following pickup checks are temporary until proper ai senses for weapons and health pickups are implemented
 	//search for weapon if required
 	if (!Owner->HasWeapon() && !Owner->SensedWeapon.IsValid())
 	{
@@ -36,7 +34,6 @@ void UPatrolState::Update(AEnemyCharacter* Owner, float DeltaTime)
 	{
 		Owner->FindHealthPickup();
 	}
-
 	//if character receives more than 15 damage at once at full health, they are stunned
 	if (Owner->IsStunned()) 
 	{
