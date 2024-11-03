@@ -1,0 +1,474 @@
+[
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\AGP.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\AGP.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\AGP.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\AGPGameInstance.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\AGPGameInstance.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\AGPGameModeBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\AGPGameModeBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\BaseCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\BaseCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\DeadState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\DeadState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\EngageState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\EngageState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\EvadeState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\EvadeState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\HideState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\HideState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\InjuredState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\InjuredState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\InvestigateState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\InvestigateState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\PatrolState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\PatrolState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\StunnedState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\StunnedState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\UnarmedState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\EnemyStates\\UnarmedState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\HealthComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\HealthComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\PlayerCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\PlayerCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\PlayerCharacterHUD.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\PlayerCharacterHUD.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\WeaponComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Characters\\WeaponComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Landscape\\ProceduralLandscape.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Landscape\\ProceduralLandscape.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\MultiplayerGameMode.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\MultiplayerGameMode.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pathfinding\\NavigationNode.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pathfinding\\NavigationNode.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pathfinding\\PathfindingSubsystem.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pathfinding\\PathfindingSubsystem.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\PickupBounceComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\PickupBounceComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\PickupRotatorComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\PickupRotatorComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pickups\\HealthPickup.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pickups\\HealthPickup.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pickups\\PickupBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pickups\\PickupBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pickups\\PickupManagerSubsystem.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pickups\\PickupManagerSubsystem.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pickups\\WeaponPickup.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\Pickups\\WeaponPickup.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\StateMachine\\BaseState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\Source\\AGP\\StateMachine\\BaseState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\lachy\\OneDrive\\Documents\\GitHub\\agp-ass4\\.vscode\\compileCommands_Default\\AGP.269.rsp"
+		],
+		"directory": "C:\\UE_5.2\\Engine\\Source"
+	}
+]
